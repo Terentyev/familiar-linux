@@ -185,6 +185,7 @@ fi
 }
 
 # autoload defaults (alphabetically sorted)
+module_autoload_evdev = "evdev"
 module_autoload_hidp = "hidp"
 module_autoload_ipv6 = "ipv6"
 module_autoload_ipsec = "ipsec"
