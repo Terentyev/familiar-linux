@@ -1,4 +1,4 @@
 PREMIRRORS_prepend () {
-ftp://.*/.*/  ${LOCAL_MIRROR}
-http://.*/.*/  ${LOCAL_MIRROR}
+ftp://.*/.*/  ${SIMPLE_PREMIRROR}
+http://.*/.*/  ${SIMPLE_PREMIRROR}
 }
