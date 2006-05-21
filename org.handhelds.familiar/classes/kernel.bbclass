@@ -232,7 +232,7 @@ python populate_packages_prepend () {
 		kernelver = bb.data.getVar('PV', d, 1) + bb.data.getVar('KERNEL_LOCALVERSION', d, 1)
 		kernelver_stripped = kernelver
 		m = re.match('^(.*-hh.*)[\.\+].*$', kernelver)
-		if m and not bb.data.getVar('KERNEL_PRESERVE_HH_MINOR_VER'):
+		if m and not bb.data.getVar('KERNEL_PRESERVE_HH_MINOR_VER', d, 1):
 			kernelver_stripped = m.group(1)
 		path = bb.data.getVar("PATH", d, 1)
 		host_prefix = bb.data.getVar("HOST_PREFIX", d, 1) or ""
