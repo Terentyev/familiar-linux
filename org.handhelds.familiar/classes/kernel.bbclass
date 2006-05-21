@@ -232,12 +232,13 @@ python populate_packages_prepend () {
 		kernelver = bb.data.getVar('PV', d, 1) + bb.data.getVar('KERNEL_LOCALVERSION', d, 1)
 		kernelver_stripped = kernelver
 		m = re.match('^(.*-hh.*)[\.\+].*$', kernelver)
-		if m:
+		if m and not bb.data.getVar('KERNEL_PRESERVE_HH_MINOR_VER'):
 			kernelver_stripped = m.group(1)
 		path = bb.data.getVar("PATH", d, 1)
 		host_prefix = bb.data.getVar("HOST_PREFIX", d, 1) or ""
 
 		cmd = "PATH=\"%s\" %sdepmod -n -a -r -b %s -F %s/boot/System.map-%s %s" % (path, host_prefix, dvar, dvar, kernelver, kernelver_stripped)
+		bb.debug (1, cmd)
 		f = os.popen(cmd, 'r')
 
 		deps = {}
@@ -268,7 +269,9 @@ python populate_packages_prepend () {
 					m4 = re.match(pattern4, line)
 					deps[m2.group(1)].extend(m4.group(1).split())
 			line = f.readline()
-		f.close()
+		if f.close() or not deps:
+			# depmod returned an error or no deps found (very unlikely)
+			raise bb.build.FuncFailed("Failed to extract module dependencies.")
 		return deps
 	
 	def get_dependencies(file, pattern, format):
