@@ -4,7 +4,7 @@ MAINTAINER = "Phil Blundell <pb@handhelds.org>"
 DEPENDS = "x11 libsm"
 DESCRIPTION = "X Toolkit Intrinsics"
 LICENSE = "X-MIT"
-PR = "r1"
+PR = "r2"
 SRC_URI = "${XLIBS_MIRROR}/libXt-${PV}.tar.bz2 \
 	   file://autofoo.patch;patch=1"
 S = "${WORKDIR}/libXt-${PV}"
@@ -24,5 +24,5 @@ do_compile() {
 }
 
 do_stage () {
-	oe_runmake install DESTDIR="" bindir=${STAGING_BINDIR} includedir=${STAGING_INCDIR} libdir=${STAGING_LIBDIR} prefix=${STAGING_DIR}
+	autotools_stage_all
 }

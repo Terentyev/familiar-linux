@@ -10,9 +10,10 @@ DESCRIPTION = "SVG rendering library"
 DEFAULT_PREFERENCE = "1"
 SRC_URI = "cvs://anoncvs:anoncvs@cvs.cairographics.org/cvs/cairo;module=libsvg-cairo;date=${FIXEDCVSDATE}"
 S = "${WORKDIR}/libsvg-cairo"
+PR = "r1"
 
 inherit autotools pkgconfig 
 
 do_stage () {
-	oe_runmake install DESTDIR="" bindir=${STAGING_BINDIR} includedir=${STAGING_INCDIR} libdir=${STAGING_LIBDIR} prefix=${STAGING_DIR}
+	autotools_stage_all
 }

@@ -3,7 +3,7 @@ LICENSE = "MIT-X"
 DEPENDS = "x11 xproto libxrender freetype fontconfig"
 DESCRIPTION = "X FreeType library. Client-side fonts with FreeType."
 PROVIDES = "xft"
-PR = "r1"
+PR = "r2"
 
 SRC_URI = "${XLIBS_MIRROR}/libXft-${PV}.tar.bz2 \
 	   file://autofoo.patch;patch=1"
@@ -17,12 +17,7 @@ FILES_${PN}-dev = ${includedir} ${libdir}/lib*.so ${libdir}/*.la \
 inherit autotools pkgconfig 
 
 do_stage() {
-	oe_runmake install prefix=${STAGING_DIR} \
-	       bindir=${STAGING_BINDIR} \
-	       includedir=${STAGING_INCDIR} \
-	       libdir=${STAGING_LIBDIR} \
-	       datadir=${STAGING_DATADIR} \
-	       mandir=${STAGING_DATADIR}/man
+	autotools_stage_all
 }
 
 python do_package() {

@@ -4,7 +4,7 @@ SECTION = "x11/libs"
 PRIORITY = "optional"
 MAINTAINER = "Phil Blundell <pb@handhelds.org>"
 DEPENDS = "xt xext"
-PR = "r2"
+PR = "r3"
 
 SRC_URI = "cvs://anoncvs:anoncvs@pdx.freedesktop.org/cvs/xlibs;module=Xmu"
 S = "${WORKDIR}/Xmu"
@@ -17,5 +17,5 @@ FILES_xmuu-dev = "${libdir}/libXmuu.so"
 inherit autotools pkgconfig 
 
 do_stage () {
-	oe_runmake install DESTDIR="" bindir=${STAGING_BINDIR} includedir=${STAGING_INCDIR} libdir=${STAGING_LIBDIR} prefix=${STAGING_DIR}
+	autotools_stage_all
 }

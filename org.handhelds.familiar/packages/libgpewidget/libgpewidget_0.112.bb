@@ -4,7 +4,7 @@ SECTION     = "gpe/libs"
 PRIORITY    = "optional"
 DEPENDS     = "gtk+ cairo libxrender gtk-doc intltool-native"
 MAINTAINER  = "Florian Boor <florian.boor@kernelconcepts.de>"
-PR          = "r0"
+PR          = "r1"
 
 PACKAGES =+ "libgpewidget-bin"
 

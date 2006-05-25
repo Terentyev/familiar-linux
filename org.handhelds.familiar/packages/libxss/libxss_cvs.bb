@@ -1,7 +1,7 @@
 LICENSE = "GPL"
 
 PV = "0.0cvs${CVSDATE}"
-PR = "r2"
+PR = "r3"
 
 SECTION = "libs"
 DEPENDS = "x11 xext"
@@ -15,10 +15,5 @@ inherit autotools pkgconfig
 #CFLAGS_append += " -I ${S}/include/X11/XprintUtil -I ${S}/include/X11/extensions"
 
 do_stage() {
-	oe_runmake install prefix=${STAGING_DIR} \
-	       bindir=${STAGING_BINDIR} \
-	       includedir=${STAGING_INCDIR} \
-	       libdir=${STAGING_LIBDIR} \
-	       datadir=${STAGING_DATADIR} \
-		mandir=${STAGING_DATADIR}/man
+	autotools_stage_all
 }
