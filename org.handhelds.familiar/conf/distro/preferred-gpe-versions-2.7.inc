@@ -10,7 +10,7 @@ PREFERRED_PROVIDER_gconf=gconf-dbus
 PREFERRED_PROVIDER_gnome-vfs=gnome-vfs-dbus
 
 #specify versions, as the header says :)
-PREFERRED_VERSION_libmatchbox ?= "1.7"
+PREFERRED_VERSION_libmatchbox ?= "1.8"
 PREFERRED_VERSION_matchbox ?= "0.9.1"
 PREFERRED_VERSION_matchbox-common ?= "0.9.1"
 PREFERRED_VERSION_matchbox-desktop ?= "0.9.1"
