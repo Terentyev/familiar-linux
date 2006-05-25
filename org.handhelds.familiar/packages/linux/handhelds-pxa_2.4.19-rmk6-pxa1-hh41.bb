@@ -2,7 +2,7 @@ SECTION = "kernel"
 DESCRIPTION = "handhelds.org Linux kernel for PXA25x based devices."
 MAINTAINER = "Phil Blundell <pb@handhelds.org>"
 LICENSE = "GPL"
-PR = "r0"
+PR = "r1"
 
 
 KERNEL_CCSUFFIX = "-3.3.4"
@@ -47,7 +47,8 @@ module_autoload_usb-ohci-h5400 = "usb-ohci-h5400"
 module_autoload_ppp_async = "ppp_async"
 module_autoload_usb-eth = "usb-eth"
 module_autoload_h5400_buzzer = "h5400_buzzer"
-module_autoload_mmc_asic3 = "mmc_asic3"
+# breaks booting on first install of h3900 handhelds
+#module_autoload_mmc_asic3 = "mmc_asic3"
 module_autoload_mmc_h5400 = "mmc_h5400"
 module_autoload_h5400-audio = "h5400-audio"
 module_autoload_h3900-uda1380 = "h3900-uda1380"
