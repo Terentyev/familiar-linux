@@ -11,7 +11,3 @@ inherit autotools pkgconfig
 
 SRC_URI = "cvs://anonymous@xanadux.cvs.sourceforge.net/cvsroot/xanadux;module=gomunicator"
 S = "${WORKDIR}/${PN}"
-
-do_install_append() {
-	install -d ${D}${datadir}/applications
-}
