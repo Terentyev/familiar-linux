@@ -1,4 +1,5 @@
 include libmatchbox.inc
+PR = "r2"
 
 SRC_URI = "http://projects.o-hand.com/matchbox/sources/${PN}/${PV}/${PN}-${PV}.tar.gz \
 	   file://check.m4"
