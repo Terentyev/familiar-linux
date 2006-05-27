@@ -1,2 +1,5 @@
 #!/bin/sh
-exec /usr/bin/gpe-su -c /usr/sbin/gpe-package
+
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+exec gpe-su -c /usr/sbin/gpe-package
