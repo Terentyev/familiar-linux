@@ -3,7 +3,7 @@ SECTION = "libs"
 PRIORITY = "optional"
 LICENSE = "LGPL"
 DEPENDS = "intltool-native"
-PR = "r4"
+PR = "r5"
 PV = "0.3.1+cvs-${CVSDATE}"
 
 DEFAULT_PREFERENCE = 1

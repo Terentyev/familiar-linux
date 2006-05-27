@@ -7,7 +7,7 @@ SECTION = "gpe"
 
 FIXEDCVSDATE = "${@bb.data.getVar('FILE', d, 1).split('_')[-1].split('.')[0]}"
 PV = "0.5.0+cvs${FIXEDCVSDATE}"
-PR = "r1"
+PR = "r2"
 
 DEPENDS = "glib-2.0 gtk+ pango osb-jscore"
 

@@ -3,8 +3,9 @@ LICENSE = "GPL"
 SECTION = "x11"
 PRIORITY = "optional"
 MAINTAINER = "Phil Blundell <pb@handhelds.org>"
+PR = "r3"
+
 DEPENDS = "x11 xft xtst xpm"
-PR = "r2"
 
 SRC_URI = "http://www.oesources.org/source/xstroke-0.6.tar.gz \
 	file://auto-disable.patch;patch=1;pnum=0"

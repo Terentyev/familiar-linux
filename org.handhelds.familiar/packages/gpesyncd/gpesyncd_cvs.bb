@@ -1,15 +1,14 @@
-LICENSE =	"GPL"
-DESCRIPTION =	"Sync daemon for GPE and OpenSync"
-MAINTAINER =	"Koen Kooi <koen@handhelds.org>"
+DESCRIPTION = "Sync daemon for GPE and OpenSync"
+LICENSE = "GPL"
+MAINTAINER = "Koen Kooi <koen@handhelds.org>"
 
+PV = "0.0+cvs-${CVSDATE}"
+PR = "r1"
 
-SRC_URI =	"${HANDHELDS_CVS};module=gpe/base/gpesyncd"
+DEPENDS = "libgpevtype sqlite libmimedir glib-2.0"
 
-DEPENDS =	"libgpevtype sqlite libmimedir glib-2.0"
-
-S =		"${WORKDIR}/${PN}"
-PV =		"0.0+cvs-${CVSDATE}"
-PR =		"r0"
+SRC_URI = "${HANDHELDS_CVS};module=gpe/base/gpesyncd"
+S = "${WORKDIR}/${PN}"
 
 inherit autotools
 

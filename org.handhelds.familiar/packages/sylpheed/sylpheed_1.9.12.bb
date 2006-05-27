@@ -3,7 +3,7 @@ DESCRIPTION = "Mail user agent"
 DEPENDS = "gtk+ gpgme gnutls"
 MAINTAINER = "Phil Blundell <pb@handhelds.org>"
 LICENSE = "GPL"
-PR = "r2"
+PR = "r3"
 
 SRC_URI = "http://sylpheed.good-day.net/sylpheed/v1.9/sylpheed-1.9.12.tar.bz2 \
 	file://sylpheed-gnutls.patch;patch=1"

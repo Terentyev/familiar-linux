@@ -4,8 +4,8 @@ SECTION = "gpe/libs"
 PRIORITY = "optional"
 DEPENDS = "libgpewidget libgpepimc sqlite"
 MAINTAINER = "Florian Boor <florian.boor@kernelconcepts.de>"
+PR = "r1"
 
-PR = "r0"
 GPE_TARBALL_SUFFIX = "bz2"
 
 inherit autotools gpe pkgconfig

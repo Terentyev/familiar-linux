@@ -1,11 +1,10 @@
-LICENSE = "LGPL"
-PR = "r4"
-
-DESCRIPTION = "GStreamer is a multimedia framework for encoding and decoding video and sound. \
-It supports a wide range of formats including mp3, ogg, avi, mpeg and quicktime."
-DEPENDS = "glib-2.0 gettext-native popt"
+DESCRIPTION = "GStreamer is a multimedia framework for encoding and decoding video and sound."
 SECTION = "base"
 PRIORITY = "optional"
+LICENSE = "LGPL"
+PR = "r5"
+
+DEPENDS = "glib-2.0 gettext-native popt"
 
 FILES_${PN} += " ${libdir}/gstreamer-0.8/*.so"
 FILES_${PN}-dev += " ${libdir}/gstreamer-0.8/*.la ${libdir}/gstreamer-0.8/*.a"
@@ -21,12 +20,7 @@ EXTRA_OECONF = "--disable-docs-build --disable-dependency-tracking --disable-loa
 inherit autotools pkgconfig
 
 do_stage() {
-	oe_runmake install prefix=${STAGING_DIR} \
-	       bindir=${STAGING_BINDIR} \
-	       includedir=${STAGING_INCDIR} \
-	       libdir=${STAGING_LIBDIR} \
-	       datadir=${STAGING_DATADIR} \
-	       mandir=${STAGING_DIR}/share/man
+	autotools_stage_all
 }
 
 do_install_append() {
