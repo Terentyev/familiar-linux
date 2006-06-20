@@ -11,7 +11,7 @@ SRC_URI = "${HANDHELDS_CVS};module=apps/kbdd;date=${CVSDATE} \
            file://kbdd-modules"
 
 PV="0.10+cvs${CVSDATE}"
-PR="r5"
+PR="r6"
 
 inherit update-rc.d linux_modules
 
