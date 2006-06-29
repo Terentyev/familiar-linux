@@ -171,6 +171,9 @@ oe_libinstall() {
 	if [ -z "$dir" ]; then
 		dir=`pwd`
 	fi
+	if [ -d "$dir/.libs" ]; then
+		dir=$dir/.libs
+	fi
 	dotlai=$libname.lai
 	dir=$dir`(cd $dir; find -name "$dotlai") | sed "s/^\.//;s/\/$dotlai\$//;q"`
 	olddir=`pwd`
