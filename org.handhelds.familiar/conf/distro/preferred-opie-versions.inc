@@ -1,14 +1,28 @@
 #
-# A list of applications.
+# Default versions
+QTE_VERSION ?= "2.3.10"
+OPIE_VERSION ?= "1.2.1"
+PALMTOP_USE_MULTITHREADED_QT ?= "no"
+
 #
-
-
+#
+# Opie libraries
+#
+PREFERRED_PROVIDER_virtual/qte = '${@base_conditional("PALMTOP_USE_MULTITHREADED_QT", "yes", "qte-mt", "qte", d)}'
+PREFERRED_PROVIDER_virtual/libqte2 = '${@base_conditional("PALMTOP_USE_MULTITHREADED_QT", "yes", "qte-mt", "qte", d)}'
+PREFERRED_PROVIDER_virtual/libqpe = "libqpe-opie"
+PREFERRED_PROVIDER_virtual/libqpe1 = "libqpe-opie"
+PREFERRED_VERSION_qte-mt = "${QTE_VERSION}"
+PREFERRED_VERSION_qte = "${QTE_VERSION}"
 PREFERRED_VERSION_libopie2 = "${OPIE_VERSION}"
 PREFERRED_VERSION_libopieobex0 = "${OPIE_VERSION}"
 PREFERRED_VERSION_libopietooth1 = "${OPIE_VERSION}"
 PREFERRED_VERSION_libqpe-opie = "${OPIE_VERSION}"
 PREFERRED_VERSION_libqtaux2 = "${OPIE_VERSION}"
 PREFERRED_VERSION_libmailwrapper = "${OPIE_VERSION}"
+#
+# Opie applications
+#
 PREFERRED_VERSION_opie-aboutapplet = "${OPIE_VERSION}"
 PREFERRED_VERSION_opie-addressbook = "${OPIE_VERSION}"
 PREFERRED_VERSION_opie-advancedfm = "${OPIE_VERSION}"
@@ -68,6 +82,7 @@ PREFERRED_VERSION_opie-homeapplet = "${OPIE_VERSION}"
 PREFERRED_VERSION_opie-i18n = "${OPIE_VERSION}"
 PREFERRED_VERSION_opie-lrelease-native = "${OPIE_VERSION}"
 PREFERRED_VERSION_opie-lupdate-native = "${OPIE_VERSION}"
+PREFERRED_VERSION_opie-icon-reload = "${OPIE_VERSION}"
 PREFERRED_VERSION_opie-irc = "${OPIE_VERSION}"
 PREFERRED_VERSION_opie-irdaapplet = "${OPIE_VERSION}"
 PREFERRED_VERSION_opie-jumpx = "${OPIE_VERSION}"
@@ -83,6 +98,7 @@ PREFERRED_VERSION_opie-language = "${OPIE_VERSION}"
 PREFERRED_VERSION_opie-launcher-settings = "${OPIE_VERSION}"
 PREFERRED_VERSION_opie-libqrsync = "${OPIE_VERSION}"
 PREFERRED_VERSION_opie-light-and-power = "${OPIE_VERSION}"
+PREFERRED_VERSION_opie-lockapplet = "${OPIE_VERSION}"
 PREFERRED_VERSION_opie-login = "${OPIE_VERSION}"
 PREFERRED_VERSION_opie-logoutapplet = "${OPIE_VERSION}"
 PREFERRED_VERSION_opie-mailapplet = "${OPIE_VERSION}"
