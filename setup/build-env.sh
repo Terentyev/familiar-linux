@@ -175,6 +175,8 @@ ENVSCRIPT="${BUILD_DIR}/conf/env.sh"
 cat > ${ENVSCRIPT} <<EOF
 PATH="${BASE_DIR}/bitbake/bin:${PATH}"
 BBPATH="${BUILD_DIR}:${BASE_DIR}/org.handhelds.familiar"
+
+export PATH BBPATH
 EOF
 
 zenity  --info \
