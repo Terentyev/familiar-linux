@@ -84,7 +84,7 @@ PREFERRED_PROVIDERS += " virtual/${TARGET_PREFIX}g++:gcc-cross"
 # INHERIT = "package_tar"
 
 # Add the required image file system types below. Valid are jffs2, tar, cramfs and ext2
-IMAGE_FSTYPES = "jffs2 tar"
+#IMAGE_FSTYPES = "jffs2 tar"
 
 # Uncomment this to disable the parse cache (not recommended).
 # CACHE = ""
@@ -114,7 +114,7 @@ IMAGE_FSTYPES = "jffs2 tar"
 # PARALLEL_MAKE = "-j 4"
 
 # Uncomment this if you want BitBake to emit the log if a build fails.
-BBINCLUDELOGS = "yes"
+#BBINCLUDELOGS = "yes"
 
 # Specifies a location to search for pre-generated tarballs when fetching
 # a cvs:// URI. Outcomment this, if you always want to pull directly from CVS.
