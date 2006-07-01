@@ -1,4 +1,10 @@
- This is the OpenEmbedded packages metadata repository.
+ This is the OpenEmbedded derived packages metadata repository used by
+ the Familiar project.
 
-See http://openembedded.org
+For more information on OpenEmbedded, see http://openembedded.org/
+
+For more information on Familiar, please visit http://familiar.handhelds.org/
+
+For instructions on how to set up the build environment, see
+http://familiar.handhelds.org/build-setup.html
 
