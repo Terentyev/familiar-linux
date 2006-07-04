@@ -8,6 +8,7 @@ LICENSE = "GPL"
 SRC_URI = "http://bluez.sourceforge.net/download/bluez-utils-${PV}.tar.gz \
 	file://base.patch;patch=1 \
 	file://blueboxes.patch;patch=1 \
+	file://hciattach-ti-bts.patch;patch=1 \
 	file://hcid.conf \
 	file://bluetooth.default \
 	file://bluetooth.conf \
@@ -34,6 +35,8 @@ do_compile_prepend() {
 
 do_install_append() {
 	install -d ${D}${base_sbindir} ${D}${base_bindir}/ ${D}${sysconfdir}/apm/event.d/
+	install -d ${D}${base_sbindir} ${D}${base_bindir}/ ${D}${sysconfdir}/apm/scripts.d/
+	install -d ${D}${base_sbindir} ${D}${base_bindir}/ ${D}${sysconfdir}/apm/resume.d/
 	mv ${D}${sbindir}/* ${D}${base_sbindir}/
 	mv ${D}${bindir}/* ${D}${base_bindir}/
 	rmdir ${D}${bindir} ${D}${sbindir}
@@ -42,7 +45,7 @@ do_install_append() {
 	install -m 0644 ${WORKDIR}/hcid.conf ${D}${sysconfdir}/bluetooth/
 	install -m 0644 ${WORKDIR}/bluetooth.default ${D}${sysconfdir}/default/bluetooth
 	cat ${WORKDIR}/bluetooth.conf >> ${D}${sysconfdir}/pcmcia/bluetooth.conf
-	install -m 0755 ${WORKDIR}/02dtl1_cs.sh ${D}${sysconfdir}/apm/event.d/
+	install -m 0755 ${WORKDIR}/02dtl1_cs.sh ${D}${sysconfdir}/apm/event.d/02dtl1_cs
 }
 
 CONFFILES_${PN} = "${sysconfdir}/bluetooth/hcid.conf ${sysconfdir}/bluetooth/rfcomm.conf \
