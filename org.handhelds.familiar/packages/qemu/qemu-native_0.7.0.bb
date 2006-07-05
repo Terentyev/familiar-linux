@@ -3,7 +3,7 @@ inherit native
 S = "${WORKDIR}/qemu-${PV}"
 prefix = "${STAGING_DIR}/${BUILD_SYS}"
 
-python do_check_gcc () {
+python __anonymous () {
     from bb import which, data
        
     cc = 'gcc'
@@ -14,9 +14,15 @@ python do_check_gcc () {
     elif len(which(path, 'gcc-3.3')) != 0:
         cc = 'gcc-3.3'
         data.setVar('EXTRA_OECONF', " --cc=gcc-3.3", d)
+    data.setVar('QEMU_CC', cc, d)
+}
 
+python do_check_gcc () {
+    from bb import which, data
+       
     import os
 
+    cc = data.getVar('QEMU_CC', d, 1)
     f = os.popen ("%s --version" % cc, 'r')
     line = f.readline()
     if f.close() or not line:
