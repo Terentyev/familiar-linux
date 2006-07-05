@@ -1,7 +1,7 @@
 DESCRIPTION = "Miscellaneous files for the base system."
 SECTION = "base"
 PRIORITY = "required"
-PR = "r47"
+PR = "r48"
 LICENSE = "GPL"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
@@ -16,6 +16,7 @@ SRC_URI = " \
 	   file://filesystems \
            file://issue.net \
            file://issue \
+           file://shells \
            file://usbd \
            file://share/dot.bashrc \
            file://share/dot.profile \
@@ -100,6 +101,7 @@ do_install () {
 	install -m 0644 ${WORKDIR}/nsswitch.conf ${D}${sysconfdir}/nsswitch.conf
 	install -m 0644 ${WORKDIR}/host.conf ${D}${sysconfdir}/host.conf
 	install -m 0644 ${WORKDIR}/motd ${D}${sysconfdir}/motd
+	install -m 0644 ${WORKDIR}/shells ${D}${sysconfdir}/shells
 
 	for license in BSD GPL-2 LGPL-2 LGPL-2.1 Artistic; do
 		install -m 0644 ${WORKDIR}/licenses/$license ${D}${datadir}/common-licenses/
