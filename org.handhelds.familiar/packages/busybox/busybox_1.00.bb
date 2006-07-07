@@ -10,7 +10,7 @@ HOMEPAGE = "http://www.busybox.net"
 LICENSE = "GPL"
 SECTION = "base"
 PRIORITY = "required"
-PR = "r33"
+PR = "r34"
 
 SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.gz \
            file://add-getkey-applet.patch;patch=1 \
@@ -22,6 +22,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.gz \
 	   file://readlink.patch;patch=1 \
 	   file://iproute-flush-cache.patch;patch=1;pnum=0 \
 	   file://rmmod.patch;patch=1 \
+	   file://df.patch;patch=1 \
 	   file://below.patch;patch=1 \
 	   file://fbset.patch;patch=1 \
 	   file://mount-all-type.patch;patch=1 \

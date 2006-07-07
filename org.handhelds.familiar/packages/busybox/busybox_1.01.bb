@@ -10,6 +10,7 @@ HOMEPAGE = "http://www.busybox.net"
 LICENSE = "GPL"
 SECTION = "base"
 PRIORITY = "required"
+PR = "r1"
 
 DEFAULT_PREFERENCE = "-1"
 DEFAULT_PREFERENCE_nslu2 = ""
@@ -28,6 +29,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.gz \
 	   file://mount-all-type.patch;patch=1 \
 	   file://readlink.patch;patch=1 \
 	   file://rmmod.patch;patch=1 \
+	   file://df.patch;patch=1 \
 	   file://udhcpscript.patch;patch=1 \
            file://defconfig \
            file://busybox-cron \
