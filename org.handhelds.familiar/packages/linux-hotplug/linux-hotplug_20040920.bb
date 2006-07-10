@@ -7,8 +7,9 @@ RPROVIDES_${PN} = "hotplug"
 RCONFLICTS_${PN} = "hotplug"
 RREPLACES_${PN} = "hotplug"
 SECTION = "base"
-RSUGGESTS = "pciutils usbutils"
-PR = "r8"
+RSUGGESTS = "usbutils ${PN}-pci"
+RSUGGESTS_${PN}-pci = "pciutils"
+PR = "r9"
 
 SRC_URI = "ftp://ftp.kernel.org/pub/linux/utils/kernel/hotplug/hotplug-2004_09_20.tar.gz \
 	file://userspecified_hcd.patch;patch=1 \
@@ -40,6 +41,9 @@ inherit update-rc.d
 do_compile () {
 	:
 }
+
+PACKAGES =+ "${PN}-pci"
+FILES_${PN}-pci = "${sysconfdir}/hotplug/pci*"
 
 oldmandir := "${mandir}"
 oldsbindir := "${sbindir}"
