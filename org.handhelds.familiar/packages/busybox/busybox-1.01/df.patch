@@ -1,15 +1,14 @@
---- busybox-1.00/coreutils/df.c	2004-08-02 20:14:01.000000000 -0400
-+++ busybox-1.00/coreutils/df.c.new	2006-06-29 10:56:43.256528750 -0400
-@@ -117,6 +117,8 @@
- 		}
+--- busybox-1.00/coreutils/df.c.orig	2006-07-14 09:50:47.914912750 -0400
++++ busybox-1.00/coreutils/df.c	2006-07-14 09:52:32.613456000 -0400
+@@ -60,6 +60,7 @@
+ 	struct statfs s;
+ 	static const char hdr_1k[] = "1k-blocks"; /* default display is kilobytes */
+ 	const char *disp_units_hdr = hdr_1k;
++	int root_done = 0;
  
- 		if ((s.f_blocks > 0) || !mount_table){
-+			int root_done = 0;
-+
- 			blocks_used = s.f_blocks - s.f_bfree;
- 			blocks_percent_used = 0;
- 			if (blocks_used + s.f_bavail) {
-@@ -125,14 +127,14 @@
+ #ifdef CONFIG_FEATURE_HUMAN_READABLE
+ 	bb_opt_complementaly = "h-km:k-hm:m-hk";
+@@ -125,14 +126,14 @@
  									   ) / (blocks_used + s.f_bavail);
  			}
  

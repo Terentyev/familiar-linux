@@ -10,7 +10,7 @@ HOMEPAGE = "http://www.busybox.net"
 LICENSE = "GPL"
 SECTION = "base"
 PRIORITY = "required"
-PR = "r1"
+PR = "r2"
 
 DEFAULT_PREFERENCE = "-1"
 DEFAULT_PREFERENCE_nslu2 = ""
