@@ -2,7 +2,7 @@ DESCRIPTION = "Alsa Drivers"
 MAINTAINER = "Rene Wagner <rw@handhelds.org>"
 SECTION = "base"
 LICENSE = "GPL"
-PR = "r7"
+PR = "r8"
 
 DEPENDS += "fakeroot-native virtual/kernel"
 
@@ -12,7 +12,10 @@ SRC_URI = "ftp://ftp.handhelds.org/packages/alsa-driver/alsa-driver-${PV}.tar.gz
 	file://sa11xx.patch;patch=1 \
 	file://adriver.h.patch;patch=1"
 
-inherit autotools module
+inherit autotools module update-rc.d
+
+INITSCRIPT_NAME = "alsa-driver"
+INITSCRIPT_PARAMS = "start 29 S . stop 29 0 6 1 ."
 
 # avoid miscompilation
 KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc${KERNEL_CCSUFFIX} ${HOST_CC_ARCH}"
@@ -25,7 +28,8 @@ EXTRA_OECONF = "--with-sequencer=yes \
 
 PACKAGES =+ "${PN}-midi ${PN}-misc"
 FILES_${PN} = "/lib/modules/*/misc/snd* \
-	${sysconfdir}/modutils/*"
+	${sysconfdir}/init.d/${INITSCRIPT_NAME}"
+#	${sysconfdir}/modutils/*"
 midi_modules = "snd-seq-midi-emul.o \
 	snd-seq-midi-event.o \
 	snd-seq-midi.o \
@@ -61,22 +65,63 @@ cards="$cards,bluez-sco,pdaudiocf"
    oe_runconf --with-cards=${cards}
 }
 
+autoload_ipaqsa = "snd-sa11xx-uda1341 snd-pcm-oss snd-mixer-oss"
+autoload_ipaqpxa = "snd-h5400-ak4535 snd-pxa-uda1380 snd-pcm-oss snd-mixer-oss"
 
 do_install() {
 
 if egrep "CONFIG_SA1100_H3[168]00=y" "${STAGING_KERNEL_DIR}/.config" ; then
-  familiar_arch=ipaqsa
+  autoload="${autoload_ipaqsa}"
 fi
 if grep "CONFIG_ARCH_H3900=y" "${STAGING_KERNEL_DIR}/.config" ; then
-  familiar_arch=ipaqpxa
+  autoload="${autoload_ipaqpxa}"
 fi
 
       fakeroot make -k NODEPMOD=yes DESTDIR=${D} install; 
 
-      if [ -d ${D}${sysconfdir}/modutils/ ] ; then 
-         rm -r ${D}${sysconfdir}/modutils/ ;
-      fi
-      mkdir -p ${D}${sysconfdir}/modutils/
-      cp familiar/alsa-modules-${familiar_arch} ${D}${sysconfdir}/modutils/
+mkdir -p ${D}${sysconfdir}/init.d
+cat > ${D}${sysconfdir}/init.d/${INITSCRIPT_NAME} <<EOF
+#!/bin/sh
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+autoload_modules="$autoload"
+
+case "\$1" in
+  start)
+	echo -n "Loading alsa modules:"
+	for i in \$autoload_modules; do
+		modprobe \$i && echo -n " \$i"
+	done
+	echo "."
+	;;
+  stop)
+	echo -n "Unloading alsa modules:"
+	for i in \$autoload_modules; do
+		modprobe -r \$i && echo -n " \$i"
+	done
+	echo "."
+	;;
+  restart|force-reload)
+	echo -n "Unloading alsa modules:"
+	for i in \$autoload_modules; do
+		modprobe -r \$i && echo -n " \$i"
+	done
+	echo "."
+	echo -n "Loading alsa modules:"
+	for i in \$autoload_modules; do
+		modprobe \$i && echo -n " \$i"
+	done
+	echo "."
+	;;
+  *)
+	echo "Usage: \$0 {start|stop|restart|force-reload}" >&2
+	exit 1
+	;;
+esac
+
+exit 0
+EOF
+chmod 755 ${D}${sysconfdir}/init.d/${INITSCRIPT_NAME}
 }
 
