@@ -12,6 +12,7 @@ INLINE_PICS_tosa  = "pics-hires/inline"
 INLINE_PICS_c7x0  = "pics-hires/inline"
 INLINE_PICS_spitz = "pics-hires/inline"
 INLINE_PICS_akita = "pics-hires/inline"
+INLINE_PICS_ipaq-pxa270 = "pics-hires/inline"
 
 do_install() {
 	install -d ${D}${palmtopdir}/pics/addressbook/
