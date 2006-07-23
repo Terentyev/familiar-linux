@@ -53,56 +53,55 @@ fakeroot do_rootfs () {
 	${IMAGE_POSTPROCESS_COMMAND}
 }
 
-DISTRO_LOCALE_FEEDS_PREFIXES ?= ""
-DISTRO_LOCALE_FEEDS_HEADER ?= ""
+DISTRO_FEEDS_FILE_PATTERN = "${IMAGE_ROOTFS}/etc/ipkg/${DISTRO}-${DISTRO_VERSION}-%s.conf"
 
 python __anonymous() {
-	prefixes = bb.data.getVar("DISTRO_LOCALE_FEEDS_PREFIXES", d, 1).split()
-	locale_feeds = bb.data.getVar("DISTRO_LOCALE_FEEDS_HEADER", d, 1)
+	m = bb.data.getVar("MACHINE", d, 1)
+	pattern = bb.data.getVar("DISTRO_FEEDS_FILE_PATTERN", d, 1)
+	pfx = bb.data.getVar("DISTRO_FEEDS_PREFIX", d, 1)
+	cs = bb.data.getVar("DISTRO_FEEDS_COLLECTIONS", d, 1).split()
+	
+	cmds = ""
+	for c in cs:
+		file = pattern % c
+		cmds += "cat > %s <<EOF\n" % file
 
-	# add template
-	locale_feeds += "# For each supported locale there is a subfeed in each of the feed folders.\n"
-	locale_feeds += "# You can use your webbrowser to check for valid locale codes.\n\n"
-	locale_feeds += "# To point ipkg at packages for your locale, replace <my_locale> with the\n"
-	locale_feeds += "# locale code in the template below and remove the leading '#' characters.\n\n"
-	for p in prefixes:
-		locale_feeds += "# src/gz %s-locale-<my_locale> %s/locale/<my_locale>\n" % (p.split('/')[-1], p)
-	
-	# add feed for each IMAGE_LINGUA
-	linguas = bb.data.getVar("IMAGE_LINGUAS", d, 1).split()
-	for l in linguas:
-		fst = l.split('-')[0]
-		locale_feeds += "\n# %s locale feeds\n" % fst
-		for p in prefixes:
-			locale_feeds += "src/gz %s-locale-%s %s/locale/%s\n" % (p.split('/')[-1], fst, p, fst)
-	
-	bb.data.setVar("DISTRO_LOCALE_FEEDS", locale_feeds, d)
+		desc = bb.data.getVar("DISTRO_FEEDS_COLLECTION_DESC_%s" % c, d, 1)
+		cmds += "# %s\n\n" % desc
+
+		feeds = bb.data.getVar("DISTRO_FEEDS_IN_%s" % c, d, 1).split()
+		for f in feeds:
+			desc = bb.data.getVar("DISTRO_FEEDS_FEED_DESC_%s" % f, d, 1)
+			cmds += "# %s - %s\n" % (f, desc)
+			cmds += "src/gz %s %s/%s/%s\n" % (f, pfx, c, f)
+			cmds += "src/gz %s-%s %s/%s/%s/machine/%s\n\n" % (f, m, pfx, c, f, m)
+
+		# locale subfeeds
+
+		# add template
+		cmds += "\n# For each supported locale there is a subfeed in each of the feed folders.\n"
+		cmds += "# You can use your webbrowser to check for valid locale codes.\n\n"
+		cmds += "# To point ipkg at packages for your locale, replace <my_locale> with the\n"
+		cmds += "# locale code in the template below and remove the leading '#' characters.\n\n"
+		for f in feeds:
+			cmds += "# src/gz %s-locale-<my_locale> %s/%s/locale/<my_locale>\n" % (f, pfx, f)
+		
+		# add feed for each IMAGE_LINGUA
+		linguas = bb.data.getVar("IMAGE_LINGUAS", d, 1).split()
+		for l in linguas:
+			fst = l.split('-')[0]
+			cmds += "\n# %s locale feeds\n" % fst
+			for f in feeds:
+				cmds += "src/gz %s-locale-%s %s/%s/locale/%s\n" % (f, fst, pfx, f, fst)
+		
+		cmds += "\nEOF\n"
+
+	bb.data.setVar("DISTRO_FEEDS_COMMANDS", cmds, d)
 }
 
 insert_feed_uris () {
 	
 	echo "Building feeds for [${DISTRO}].."
 		
-	for line in ${FEED_URIS}
-	do
-		# strip leading and trailing spaces/tabs, then split into name and uri
-		line_clean="`echo "$line"|sed 's/^[ \t]*//;s/[ \t]*$//'`"
-		feed_name="`echo "$line_clean" | sed -n 's/\(.*\)##\(.*\)/\1/p'`"
-		feed_uri="`echo "$line_clean" | sed -n 's/\(.*\)##\(.*\)/\2/p'`"					
-		
-		echo "Added $feed_name feed with URL $feed_uri"
-		
-		# insert new feed-sources
-		echo "src/gz $feed_name $feed_uri" >> ${IMAGE_ROOTFS}/etc/ipkg/${feed_name}-feed.conf
-	done			
-
-	if [ -z ${FEED_URIS} ]; then
-cat > ${IMAGE_ROOTFS}/etc/ipkg/${DISTRO}-${DISTRO_VERSION}-feeds.conf <<EOF
-${DISTRO_FEEDS}
-EOF
-
-cat > ${IMAGE_ROOTFS}/etc/ipkg/${DISTRO}-${DISTRO_VERSION}-locale-feeds.conf <<EOF
-${DISTRO_LOCALE_FEEDS}
-EOF
-	fi
+${DISTRO_FEEDS_COMMANDS}
 }

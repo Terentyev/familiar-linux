@@ -1,15 +1,5 @@
-FEED_URIS_append_openzaurus = " x11##http://ewi546.ewi.utwente.nl/mirror/www.openzaurus.org/official/unstable/${DISTRO_VERSION}/feed/x11 "
-FEED_URIS_append_opensimpad = " x11##http://ewi546.ewi.utwente.nl/mirror/www.openzaurus.org/official/unstable/${DISTRO_VERSION}/feed/x11 \
-                                gpe##http://ewi546.ewi.utwente.nl/mirror/www.openzaurus.org/official/unstable/${DISTRO_VERSION}/feed/gpe"
-
-DISTRO_FEEDS_append_familiar () {
-
-# x11 - additional packages specific to the x11 graphical environment
-src/gz x11 ${DISTRO_FEED_PREFIX}/x11
-src/gz x11-${MACHINE} ${DISTRO_FEED_PREFIX}/x11/machine/${MACHINE}
-}
-
-DISTRO_LOCALE_FEEDS_PREFIXES_append_familiar = " ${DISTRO_FEED_PREFIX}/x11"
+DISTRO_FEEDS_IN_feed += "x11"
+DISTRO_FEEDS_IN_universe += "x11"
 
 PR = "r21"
 
