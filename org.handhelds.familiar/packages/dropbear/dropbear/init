@@ -61,14 +61,14 @@ done
 
 case "$1" in
   start)
-	echo -n "Starting $DESC: "
-	gen_keys
+	echo -n "Starting $DESC in background: "
+	(gen_keys
 	KEY_ARGS=""
 	test -f $DROPBEAR_DSSKEY && KEY_ARGS="$KEY_ARGS -d $DROPBEAR_DSSKEY"
 	test -f $DROPBEAR_RSAKEY && KEY_ARGS="$KEY_ARGS -r $DROPBEAR_RSAKEY"
 	start-stop-daemon -S \
 	  -x "$DAEMON" -- $KEY_ARGS \
-	    -p "$DROPBEAR_PORT" $DROPBEAR_EXTRA_ARGS
+	    -p "$DROPBEAR_PORT" $DROPBEAR_EXTRA_ARGS) &
 	echo "$NAME."
 	;;
   stop)
