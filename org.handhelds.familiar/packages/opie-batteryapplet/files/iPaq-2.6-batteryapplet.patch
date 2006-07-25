@@ -1,0 +1,16 @@
+diff -aruN batteryapplet.orig/batterystatus.cpp batteryapplet/batterystatus.cpp
+--- batteryapplet.orig/batterystatus.cpp	2005-06-14 20:14:38.000000000 +0200
++++ batteryapplet/batterystatus.cpp	2006-05-28 23:56:44.000000000 +0200
+@@ -81,11 +81,9 @@
+                 }
+             }
+         }
+-    } else {
+-        QMessageBox::warning(this, tr("Failure"),tr("could not open file"));
++	procApmIpaq.close();
+     }
+ 
+-    procApmIpaq.close();
+     jackPercent = perc2.toInt();
+     ipaqPercent = perc1.toInt();
+ 
