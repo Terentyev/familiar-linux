@@ -104,4 +104,7 @@ insert_feed_uris () {
 	echo "Building feeds for [${DISTRO}].."
 		
 ${DISTRO_FEEDS_COMMANDS}
+
+	mkdir -p ${DEPLOY_DIR}/ipkg_confs/${MACHINE}
+	cp -f ${IMAGE_ROOTFS}/etc/ipkg/*conf ${DEPLOY_DIR}/ipkg_confs/${MACHINE}
 }
