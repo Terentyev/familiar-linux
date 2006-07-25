@@ -1,0 +1,117 @@
+--- libopie2/opiecore/device/odevice_ipaq.cpp.orig	2006-07-22 21:32:03.000000000 +0200
++++ libopie2/opiecore/device/odevice_ipaq.cpp	2006-07-22 22:49:57.000000000 +0200
+@@ -31,6 +31,7 @@
+ 
+ /* QT */
+ #include <qapplication.h>
++#include <qdir.h>
+ #include <qfile.h>
+ #include <qtextstream.h>
+ #include <qwindowsystem_qws.h>
+@@ -375,26 +376,19 @@
+     if ( bright < 0 )
+         bright = 0;
+ 
+-    QString cmdline;
+-
+-    switch ( model()) {
+-    case Model_iPAQ_H191x:
+-        if ( !bright )
+-            cmdline = QString::fromLatin1( "echo 4 > /sys/class/backlight/pxafb/power");
+-        else
+-            cmdline = QString::fromLatin1( "echo 0 > /sys/class/backlight/pxafb/power; echo %1 > /sys/class/backlight/pxafb/brightness" ).arg( bright );
+-        // No Global::shellQuote as we gurantee it to be sane
+-        res = ( ::system( QFile::encodeName(cmdline) ) == 0 );
+-        break; 
+-	
+-    case Model_iPAQ_HX4700:
+-            cmdline = QString::fromLatin1( "echo %1 > /sys/class/backlight/w100fb/brightness" ).arg( bright );
+-        // No Global::shellQuote as we gurantee it to be sane
+-        res = ( ::system( QFile::encodeName(cmdline) ) == 0 );
+-        break; 
+-	
+-
+-    default:
++    QDir sysClass( "/sys/class/backlight/" );
++    sysClass.setFilter(QDir::Dirs);
++    if ( sysClass.exists() && sysClass.count() > 2 ) {
++	QString sysClassPath = sysClass.absFilePath( sysClass[2] + "/brightness" );
++        int fd = ::open( sysClassPath, O_WRONLY|O_NONBLOCK );
++        if ( fd ) {
++            char buf[100];
++            int val = bright * displayBrightnessResolution() / 255;
++            int len = ::snprintf( &buf[0], sizeof buf, "%d", val );
++            res = ( ::write( fd, &buf[0], len ) == 0 );
++            ::close( fd );
++        }
++    } else {
+         if (( fd = ::open ( "/dev/touchscreen/0", O_WRONLY )) >= 0 ) {
+             FLITE_IN bl;
+             bl. mode = 1;
+@@ -409,6 +403,22 @@
+ 
+ int iPAQ::displayBrightnessResolution() const
+ {
++    int res = 16;
++
++    QDir sysClass( "/sys/class/backlight/" );
++    sysClass.setFilter(QDir::Dirs);
++    if ( sysClass.exists() && sysClass.count() > 2 ) {
++	QString sysClassPath = sysClass.absFilePath( sysClass[2] + "/max_brightness" );
++        int fd = ::open( sysClassPath, O_RDONLY|O_NONBLOCK );
++        if ( fd ) {
++            char buf[100];
++            if ( ::read( fd, &buf[0], sizeof buf ) )
++                ::sscanf( &buf[0], "%d", &res );
++            ::close( fd );
++        }
++    	return res;
++    } 
++
+     switch ( model()) {
+         case Model_iPAQ_H31xx:
+         case Model_iPAQ_H36xx:
+@@ -434,22 +444,35 @@
+ {
+     bool res = false;
+ 
+-    QString cmdline;
+-
+-    if ( model() == Model_iPAQ_H191x ) {
+-        cmdline = QString::fromLatin1( "echo %1 > /sys/class/lcd/pxafb/power; echo %2 > /sys/class/backlight/pxafb/power").arg( on ? "0" : "4" ).arg( on ? "0" : "4" );
++    QDir sysClass( "/sys/class/lcd/" );
++    sysClass.setFilter(QDir::Dirs);
++    if ( sysClass.exists() && sysClass.count() > 2 ) {
++	QString sysClassPath = sysClass.absFilePath( sysClass[2] + "/power" );
++        int fd = ::open( sysClassPath, O_WRONLY|O_NONBLOCK );
++        if ( fd ) {
++            char buf[10];
++            buf[0] = on ? 0 : 4;
++            buf[1] = '\0';
++            res = ( ::write( fd, &buf[0], 2 ) == 0 );
++            ::close( fd );
++        }
+     } else {
+-        return OAbstractMobileDevice::setDisplayStatus(on);
++        res = OAbstractMobileDevice::setDisplayStatus(on);
+     }
+ 
+-    res = ( ::system( QFile::encodeName(cmdline) ) == 0 );
+-
+     return res;
+ }
+ 
+ bool iPAQ::hasLightSensor() const
+ {
+-    return true;
++    switch ( model()) {
++        case Model_iPAQ_H191x:
++        case Model_iPAQ_H22xx:
++	    return false;
++
++	default:
++	    return true;
++    }
+ }
+ 
+ int iPAQ::readLightSensor()
