@@ -1,0 +1,31 @@
+--- libopie2/opiecore/device/odevice_ipaq.cpp.orig	2006-07-26 20:26:54.000000000 +0200
++++ libopie2/opiecore/device/odevice_ipaq.cpp	2006-07-26 22:33:11.000000000 +0200
+@@ -127,6 +127,28 @@
+     "QPE/VMemo", "toggleRecord()",
+     "sound", "raise()" },
+ 
++    //h2200 has different button mapping
++    { Model_iPAQ_H22xx,
++    Qt::Key_F9, QT_TRANSLATE_NOOP("Button", "Calendar Button"),
++    "devicebuttons/ipaq_calendar",
++    "datebook", "nextView()",
++    "today", "raise()" },
++    { Model_iPAQ_H22xx,
++    Qt::Key_F10, QT_TRANSLATE_NOOP("Button", "Contacts Button"),
++    "devicebuttons/ipaq_contact",
++    "addressbook", "raise()",
++    "addressbook", "beamBusinessCard()" },
++    { Model_iPAQ_H22xx,
++    Qt::Key_NumLock, QT_TRANSLATE_NOOP("Button", "Mail Button"),
++    "devicebuttons/ipaq_mail",
++    "opiemail", "raise()",
++    "opiemail", "newMail()" },
++    { Model_iPAQ_H22xx,
++    Qt::Key_ScrollLock, QT_TRANSLATE_NOOP("Button", "Menu Button"),
++    "devicebuttons/ipaq_menu",
++    "QPE/TaskBar", "toggleMenu()",
++    "QPE/TaskBar", "toggleStartMenu()" },
++
+ };
+ 
+ void iPAQ::init(const QString& model)
