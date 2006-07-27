@@ -84,7 +84,7 @@ python __anonymous() {
 		cmds += "# To point ipkg at packages for your locale, replace <my_locale> with the\n"
 		cmds += "# locale code in the template below and remove the leading '#' characters.\n\n"
 		for f in feeds:
-			cmds += "# src/gz %s-locale-<my_locale> %s/%s/locale/<my_locale>\n" % (f, pfx, f)
+			cmds += "# src/gz %s-locale-<my_locale> %s/%s/%s/locale/<my_locale>\n" % (f, pfx, c, f)
 		
 		# add feed for each IMAGE_LINGUA
 		linguas = bb.data.getVar("IMAGE_LINGUAS", d, 1).split()
@@ -92,7 +92,7 @@ python __anonymous() {
 			fst = l.split('-')[0]
 			cmds += "\n# %s locale feeds\n" % fst
 			for f in feeds:
-				cmds += "src/gz %s-locale-%s %s/%s/locale/%s\n" % (f, fst, pfx, f, fst)
+				cmds += "src/gz %s-locale-%s %s/%s/%s/locale/%s\n" % (f, fst, pfx, c, f, fst)
 		
 		cmds += "\nEOF\n"
 
