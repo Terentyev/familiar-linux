@@ -73,8 +73,8 @@ python __anonymous() {
 		for f in feeds:
 			desc = bb.data.getVar("DISTRO_FEEDS_FEED_DESC_%s" % f, d, 1)
 			cmds += "# %s - %s\n" % (f, desc)
-			cmds += "src/gz %s %s/%s/%s\n" % (f, pfx, c, f)
-			cmds += "src/gz %s-%s %s/%s/%s/machine/%s\n\n" % (f, m, pfx, c, f, m)
+			cmds += "src/gz %s-%s %s/%s/%s\n" % (c, f, pfx, c, f)
+			cmds += "src/gz %s-%s-%s %s/%s/%s/machine/%s\n\n" % (c, f, m, pfx, c, f, m)
 
 		# locale subfeeds
 
@@ -84,7 +84,7 @@ python __anonymous() {
 		cmds += "# To point ipkg at packages for your locale, replace <my_locale> with the\n"
 		cmds += "# locale code in the template below and remove the leading '#' characters.\n\n"
 		for f in feeds:
-			cmds += "# src/gz %s-locale-<my_locale> %s/%s/%s/locale/<my_locale>\n" % (f, pfx, c, f)
+			cmds += "# src/gz %s-%s-locale-<my_locale> %s/%s/%s/locale/<my_locale>\n" % (c, f, pfx, c, f)
 		
 		# add feed for each IMAGE_LINGUA
 		linguas = bb.data.getVar("IMAGE_LINGUAS", d, 1).split()
@@ -92,7 +92,7 @@ python __anonymous() {
 			fst = l.split('-')[0]
 			cmds += "\n# %s locale feeds\n" % fst
 			for f in feeds:
-				cmds += "src/gz %s-locale-%s %s/%s/%s/locale/%s\n" % (f, fst, pfx, c, f, fst)
+				cmds += "src/gz %s-%s-locale-%s %s/%s/%s/locale/%s\n" % (c, f, fst, pfx, c, f, fst)
 		
 		cmds += "\nEOF\n"
 
