@@ -1,6 +1,6 @@
 DESCRIPTION = "Core packages required for a basic installation"
 MAINTAINER = "Phil Blundell <pb@handhelds.org>"
-PR = "r27"
+PR = "r28"
 
 # The BOOTSTRAP_EXTRA_ variables are often manipulated by the
 # MACHINE .conf files, so adjust PACKAGE_ARCH accordingly.
@@ -31,6 +31,10 @@ def bootstrap_modutils_rdepends(d):
                 r.append('module-init-tools-depmod')
         return ' '.join(r)
 
+BOOTSTRAP_EXTRA_DEPENDS ?= ""
+BOOTSTRAP_EXTRA_RDEPENDS ?= ""
+BOOTSTRAP_EXTRA_RRECOMMENDS ?= ""
+BOOTSTRAP_EXTRA_RSUGGESTS ?= ""
 HOTPLUG ?= "linux-hotplug"
 
 DEPENDS = 'base-files base-passwd-3.5.9 \
