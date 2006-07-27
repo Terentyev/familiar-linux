@@ -1,20 +1,25 @@
 --- libopie2/opiecore/device/odevice_ipaq.cpp.orig	2006-07-26 20:26:54.000000000 +0200
-+++ libopie2/opiecore/device/odevice_ipaq.cpp	2006-07-26 22:33:11.000000000 +0200
-@@ -127,6 +127,28 @@
++++ libopie2/opiecore/device/odevice_ipaq.cpp	2006-07-27 11:47:04.000000000 +0200
+@@ -85,12 +85,12 @@
+ #define FLITE_ON  OD_IOW( 'f', 7, FLITE_IN )
+ 
+ struct i_button ipaq_buttons [] = {
+-    { Model_iPAQ_H31xx | Model_iPAQ_H36xx | Model_iPAQ_H37xx | Model_iPAQ_H38xx | Model_iPAQ_H39xx | Model_iPAQ_H5xxx | Model_iPAQ_H191x,
++    { Model_iPAQ_H31xx | Model_iPAQ_H36xx | Model_iPAQ_H37xx | Model_iPAQ_H38xx | Model_iPAQ_H39xx | Model_iPAQ_H5xxx | Model_iPAQ_H191x | Model_iPAQ_H22xx,
+     Qt::Key_F9, QT_TRANSLATE_NOOP("Button", "Calendar Button"),
+     "devicebuttons/ipaq_calendar",
+     "datebook", "nextView()",
+     "today", "raise()" },
+-    { Model_iPAQ_H31xx | Model_iPAQ_H36xx | Model_iPAQ_H37xx | Model_iPAQ_H38xx | Model_iPAQ_H39xx | Model_iPAQ_H5xxx | Model_iPAQ_H191x,
++    { Model_iPAQ_H31xx | Model_iPAQ_H36xx | Model_iPAQ_H37xx | Model_iPAQ_H38xx | Model_iPAQ_H39xx | Model_iPAQ_H5xxx | Model_iPAQ_H191x | Model_iPAQ_H22xx,
+     Qt::Key_F10, QT_TRANSLATE_NOOP("Button", "Contacts Button"),
+     "devicebuttons/ipaq_contact",
+     "addressbook", "raise()",
+@@ -127,6 +127,18 @@
      "QPE/VMemo", "toggleRecord()",
      "sound", "raise()" },
  
 +    //h2200 has different button mapping
-+    { Model_iPAQ_H22xx,
-+    Qt::Key_F9, QT_TRANSLATE_NOOP("Button", "Calendar Button"),
-+    "devicebuttons/ipaq_calendar",
-+    "datebook", "nextView()",
-+    "today", "raise()" },
-+    { Model_iPAQ_H22xx,
-+    Qt::Key_F10, QT_TRANSLATE_NOOP("Button", "Contacts Button"),
-+    "devicebuttons/ipaq_contact",
-+    "addressbook", "raise()",
-+    "addressbook", "beamBusinessCard()" },
 +    { Model_iPAQ_H22xx,
 +    Qt::Key_NumLock, QT_TRANSLATE_NOOP("Button", "Mail Button"),
 +    "devicebuttons/ipaq_mail",

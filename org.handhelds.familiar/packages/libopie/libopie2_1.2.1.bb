@@ -1,6 +1,6 @@
 include ${PN}.inc
 
-PR = "r4"
+PR = "r5"
 
 SRC_URI = "${HANDHELDS_CVS};tag=${TAG};module=opie/libopie2 \
 	   file://openzaurus-branding.patch;patch=1 \
