@@ -2,9 +2,6 @@
 # Specify which versions of GPE (and related) applications to build
 #
 
-#work around some breakages
-#CVSDATE_minimo=20050401
-
 #set some preferred providers:
 PREFERRED_PROVIDER_gconf=gconf-dbus
 PREFERRED_PROVIDER_gnome-vfs=gnome-vfs-dbus
