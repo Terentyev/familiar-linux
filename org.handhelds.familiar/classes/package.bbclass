@@ -635,7 +635,12 @@ python package_do_split_locales() {
 	bb.data.setVar('RDEPENDS_%s' % mainpkg, ' '.join(rdep), d)
 }
 
-PACKAGEFUNCS = "do_install package_do_split_locales \
+do_fix_perms () {
+	:
+}
+
+PACKAGEFUNCS = "do_install do_fix_perms \
+		package_do_split_locales \
 		populate_packages package_do_shlibs \
 		package_do_pkgconfig read_shlibdeps"
 python package_do_package () {
