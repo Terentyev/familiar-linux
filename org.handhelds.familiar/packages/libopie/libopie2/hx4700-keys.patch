@@ -1,0 +1,40 @@
+--- libopie2/opiecore/device/odevice_ipaq.cpp.fam-0.8.4-rc3	2006-07-27 16:18:55.804898062 -0700
++++ libopie2/opiecore/device/odevice_ipaq.cpp	2006-07-27 16:15:28.425537618 -0700
+@@ -85,12 +85,12 @@
+ #define FLITE_ON  OD_IOW( 'f', 7, FLITE_IN )
+ 
+ struct i_button ipaq_buttons [] = {
+-    { Model_iPAQ_H31xx | Model_iPAQ_H36xx | Model_iPAQ_H37xx | Model_iPAQ_H38xx | Model_iPAQ_H39xx | Model_iPAQ_H5xxx | Model_iPAQ_H191x | Model_iPAQ_H22xx,
++    { Model_iPAQ_H31xx | Model_iPAQ_H36xx | Model_iPAQ_H37xx | Model_iPAQ_H38xx | Model_iPAQ_H39xx | Model_iPAQ_H5xxx | Model_iPAQ_H191x | Model_iPAQ_H22xx | Model_iPAQ_HX4700,
+     Qt::Key_F9, QT_TRANSLATE_NOOP("Button", "Calendar Button"),
+     "devicebuttons/ipaq_calendar",
+     "datebook", "nextView()",
+     "today", "raise()" },
+-    { Model_iPAQ_H31xx | Model_iPAQ_H36xx | Model_iPAQ_H37xx | Model_iPAQ_H38xx | Model_iPAQ_H39xx | Model_iPAQ_H5xxx | Model_iPAQ_H191x | Model_iPAQ_H22xx,
++    { Model_iPAQ_H31xx | Model_iPAQ_H36xx | Model_iPAQ_H37xx | Model_iPAQ_H38xx | Model_iPAQ_H39xx | Model_iPAQ_H5xxx | Model_iPAQ_H191x | Model_iPAQ_H22xx | Model_iPAQ_HX4700,
+     Qt::Key_F10, QT_TRANSLATE_NOOP("Button", "Contacts Button"),
+     "devicebuttons/ipaq_contact",
+     "addressbook", "raise()",
+@@ -138,6 +138,22 @@
+     "devicebuttons/ipaq_menu",
+     "QPE/TaskBar", "toggleMenu()",
+     "QPE/TaskBar", "toggleStartMenu()" },
++    // and hx4700 has different button mapping still
++    { Model_iPAQ_HX4700,
++    Qt::Key_F11, QT_TRANSLATE_NOOP("Button", "Mail Button"),
++    "devicebuttons/ipaq_mail",
++    "opiemail", "raise()",
++    "opiemail", "newMail()" },
++    { Model_iPAQ_HX4700,
++    Qt::Key_F12, QT_TRANSLATE_NOOP("Button", "Record Button"),
++    "devicebuttons/ipaq_record",
++    "QPE/VMemo", "toggleRecord()",
++    "sound", "raise()" },
++    { Model_iPAQ_HX4700,
++    Qt::Key_Home, QT_TRANSLATE_NOOP("Button", "Home Button"),
++    "devicebuttons/ipaq_home",
++    "QPE/Launcher", "home()",
++    "buttonsettings", "raise()" },
+ 
+ };
+ 
