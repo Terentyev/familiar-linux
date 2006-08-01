@@ -446,6 +446,7 @@ python base_do_patch() {
 		bb.build.exec_func("do_patchcleancmd", d)
 
 	workdir = bb.data.getVar('WORKDIR', d, 1)
+	i = 0
 	for url in src_uri:
 
 		(type, host, path, user, pswd, parm) = bb.decodeurl(url)
@@ -479,6 +480,11 @@ python base_do_patch() {
 		bb.data.setVarFlag("do_patchcmd", "func", 1, d)
 		bb.data.setVarFlag("do_patchcmd", "dirs", "${WORKDIR} ${S}", d)
 		bb.build.exec_func("do_patchcmd", d)
+
+		if bb.data.getVar("patch_applied", d):
+			bb.data.setVar("PATCH_APPLIED_NUM", i, d)
+			bb.build.exec_func("patch_applied", d)
+		i += 1
 }
 
 
