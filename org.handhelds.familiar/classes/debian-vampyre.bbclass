@@ -1,3 +1,9 @@
+# debian-vampyre.bbclass - the supermarket thing
+#
+# Copyright (C) 2006, Rene Wagner
+# Released under the MIT license (see org.handhelds.familiar/COPYING.MIT)
+#
+
 PN = "${@bb.parse.BBHandler.vars_from_file(bb.data.getVar('FILE',d),d)[0] or 'defaultpkgname'}"
 PV = "${@'-'.join((bb.parse.BBHandler.vars_from_file(bb.data.getVar('FILE',d),d)[1] or '1.0').split('-')[:-1])}"
 PR = "${@(bb.parse.BBHandler.vars_from_file(bb.data.getVar('FILE',d),d)[1] or '1').split('-')[-1]}"

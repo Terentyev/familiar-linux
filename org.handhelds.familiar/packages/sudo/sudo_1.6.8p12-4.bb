@@ -4,6 +4,8 @@ HOMEPAGE = "http://www.sudo.ws/sudo/"
 PRIORITY = "optional"
 SECTION = "admin"
 
+DEPENDS = "fakeroot-native"
+
 inherit autotools debian-vampyre
 
 SRC_URI += "file://install-binaries.patch;patch=1 \
