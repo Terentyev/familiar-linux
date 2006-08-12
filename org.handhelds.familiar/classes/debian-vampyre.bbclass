@@ -21,5 +21,7 @@ do_install_append () {
 	rm -f ${D}${datadir}/doc/${PN}/changelog.Debian*
 	install -m 0644 debian/changelog ${D}${datadir}/doc/${PN}/changelog.Debian
 	gzip -9 ${D}${datadir}/doc/${PN}/changelog.Debian
-	[ -f debian/README.Debian ] && install -m 0644 debian/README.Debian ${D}${datadir}/doc/${PN}/
+	if [ -f debian/README.Debian ]; then
+		install -m 0644 debian/README.Debian ${D}${datadir}/doc/${PN}/
+	fi
 }
