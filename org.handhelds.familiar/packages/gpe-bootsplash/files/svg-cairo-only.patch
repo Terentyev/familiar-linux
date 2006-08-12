@@ -1,0 +1,23 @@
+--- gpe-bootsplash-1.15/Makefile	2005-11-04 23:46:57.000000000 +0100
++++ gpe-bootsplash-1.15/Makefile	2006-08-04 18:08:40.000000000 +0200
+@@ -2,7 +2,7 @@
+ VERSION = 1.15
+ CVSBUILD = no
+ 
+-PACKAGE_CFLAGS = `pkg-config --cflags gdk-pixbuf-2.0 libsvg-cairo` `pkg-config --libs gdk-pixbuf-2.0 libsvg-cairo` -DGTK2
++PACKAGE_CFLAGS = `pkg-config --cflags glib-2.0 libsvg-cairo` `pkg-config --libs libsvg-cairo`
+ CFLAGS = -fomit-frame-pointer -Os
+ 
+ SPLASH = splash2.png
+--- gpe-bootsplash-1.15/splash.c.orig	2006-08-04 18:13:54.000000000 +0200
++++ gpe-bootsplash-1.15/splash.c	2006-08-04 18:13:56.000000000 +0200
+@@ -60,7 +60,9 @@
+   gboolean has_alpha, use_landscape;
+   int img_xres, img_yres;
+ 
++#ifndef USE_SVG
+   g_type_init ();
++#endif /* USE_SVG */
+ 
+   fd = open (FB, O_RDWR);
+   if (fd < 0 && errno == ENOENT)

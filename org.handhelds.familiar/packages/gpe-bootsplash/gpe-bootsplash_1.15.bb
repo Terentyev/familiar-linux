@@ -1,13 +1,15 @@
 inherit gpe
 
-DEPENDS = "gtk+ libsvg-cairo"
+DEPENDS = "glib-2.0 libsvg-cairo"
 MAINTAINER = "Phil Blundell <pb@handhelds.org>"
 SECTION = "gpe"
 PRIORITY = "optional"
 LICENSE = "GPL"
-PR = "r1"
+PR = "r2"
 
-SRC_URI += "file://splash-p.svg file://splash-l.svg"
+SRC_URI += "file://svg-cairo-only.patch;patch=1 \
+            file://splash-p.svg \
+	    file://splash-l.svg"
 
 FILES_${PN} += "${datadir}/gpe"
 
