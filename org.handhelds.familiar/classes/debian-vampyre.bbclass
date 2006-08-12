@@ -17,6 +17,7 @@ SRC_URI = "${DEBIAN_BASE_URI}/${PN}_${DPV}.orig.tar.gz \
 
 do_install_append () {
 	mkdir -p ${D}${datadir}/doc/${PN}
+	install -m 0644 debian/copyright ${D}${datadir}/doc/${PN}
 	rm -f ${D}${datadir}/doc/${PN}/changelog.Debian*
 	install -m 0644 debian/changelog ${D}${datadir}/doc/${PN}/changelog.Debian
 	gzip -9 ${D}${datadir}/doc/${PN}/changelog.Debian
