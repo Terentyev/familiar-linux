@@ -1,4 +1,4 @@
-DISTRO_FEEDS_PREFIX = "http://ftp.handhelds.org/distributions/familiar/releases/${DISTRO_VERSION}"
+DISTRO_FEEDS_PREFIX = "http://familiar.handhelds.org/releases/${DISTRO_VERSION}"
 
 DISTRO_FEEDS_COLLECTIONS = "feed universe"
 DISTRO_FEEDS_COLLECTION_DESC_feed = "Familiar ${DISTRO_VERSION} feeds"
