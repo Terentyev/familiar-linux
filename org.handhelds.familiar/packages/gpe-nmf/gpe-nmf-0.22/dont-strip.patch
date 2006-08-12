@@ -1,0 +1,24 @@
+diff -ur gpe-nmf-0.22.orig/Makefile gpe-nmf-0.22/Makefile
+--- gpe-nmf-0.22.orig/Makefile	2005-08-26 18:31:24.000000000 +0200
++++ gpe-nmf-0.22/Makefile	2006-08-12 22:18:40.000000000 +0200
+@@ -48,7 +48,7 @@
+ install-program: all $(PACKAGE).desktop
+ 	make -C backend PREFIX=$(PREFIX) DESTDIR=$(DESTDIR) BUILD=../$(BUILD) install
+ 	mkdir -p $(DESTDIR)$(PREFIX)/bin
+-	install -s $(PACKAGE) $(DESTDIR)$(PREFIX)/bin/$(PACKAGE)
++	install $(PACKAGE) $(DESTDIR)$(PREFIX)/bin/$(PACKAGE)
+ 	mkdir -p $(DESTDIR)$(PREFIX)/share/pixmaps
+ 	install -m 644 $(PACKAGE).png $(DESTDIR)$(PREFIX)/share/pixmaps/$(PACKAGE).png
+ 	mkdir -p $(DESTDIR)$(PREFIX)/share/applications
+diff -ur gpe-nmf-0.22.orig/backend/Makefile gpe-nmf-0.22/backend/Makefile
+--- gpe-nmf-0.22.orig/backend/Makefile	2005-03-08 12:56:41.000000000 +0100
++++ gpe-nmf-0.22/backend/Makefile	2006-08-12 22:18:51.000000000 +0200
+@@ -50,7 +50,7 @@
+ 
+ install-program: all
+ 	mkdir -p $(DESTDIR)$(PREFIX)/lib
+-	install -s $(BACKEND) $(DESTDIR)$(PREFIX)/lib/$(BACKEND)
++	install $(BACKEND) $(DESTDIR)$(PREFIX)/lib/$(BACKEND)
+ 	for i in $(CODECS); do install -s $$i $(DESTDIR)$(PREFIX)/lib/gpe-nmf/decoders/$$i; done
+ 
+ include $(BUILD)/Makefile.translation
