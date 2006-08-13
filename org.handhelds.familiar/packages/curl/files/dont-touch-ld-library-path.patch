@@ -1,0 +1,36 @@
+--- curl-7.15.3/configure.ac.orig	2006-04-28 23:06:33.000000000 +0200
++++ curl-7.15.3/configure.ac	2006-04-28 23:07:38.000000000 +0200
+@@ -983,18 +983,6 @@
+ 
+   fi
+ 
+-  if test "$OPENSSL_ENABLED" = "1"; then
+-    if test -n "$LIB_OPENSSL"; then
+-       dnl when the ssl shared libs were found in a path that the run-time
+-       dnl linker doesn't search through, we need to add it to LD_LIBRARY_PATH
+-       dnl to prevent further configure tests to fail due to this
+-
+-       LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIB_OPENSSL"
+-       export LD_LIBRARY_PATH
+-       AC_MSG_NOTICE([Added $LIB_OPENSSL to LD_LIBRARY_PATH])
+-    fi
+-  fi
+-
+ fi
+ 
+ dnl **********************************************************************
+@@ -1086,14 +1074,6 @@
+       if test "x$USE_GNUTLS" = "xyes"; then
+         AC_MSG_NOTICE([detected GnuTLS version $version])
+ 
+-        dnl when shared libs were found in a path that the run-time
+-        dnl linker doesn't search through, we need to add it to
+-        dnl LD_LIBRARY_PATH to prevent further configure tests to fail
+-        dnl due to this
+-
+-        LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$gtlsprefix/lib$libsuff"
+-        export LD_LIBRARY_PATH
+-        AC_MSG_NOTICE([Added $gtlsprefix/lib$libsuff to LD_LIBRARY_PATH])
+       fi
+ 
+     fi

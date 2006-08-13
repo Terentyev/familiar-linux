@@ -2,15 +2,16 @@ DESCRIPTION = "Command line tool and library for client-side URL transfers."
 LICENSE = "MIT"
 DEPENDS = "zlib"
 SECTION = "console/network"
-PR = "r2"
 
-SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2"
+SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+           file://dont-touch-ld-library-path.patch;patch=1"
 S = "${WORKDIR}/curl-${PV}"
 
 inherit autotools pkgconfig binconfig
 
 EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
 		--without-ssl \
+		--with-gnutls \
 		--with-random=/dev/urandom \
 		--without-idn"
 
@@ -23,7 +24,8 @@ do_stage () {
 PACKAGES = "curl curl-doc libcurl libcurl-dev libcurl-doc"
 FILES_${PN} = "${bindir}/curl"
 FILES_${PN}-doc = "${mandir}/man1/curl.1"
-FILES_lib${PN} = "${libdir}/lib*.so.*"
+FILES_lib${PN} = "${libdir}/lib*.so.* \
+                  ${datadir}/curl/curl-ca-bundle.crt"
 FILES_lib${PN}-dev = "${includedir} \
                       ${libdir}/lib*.so \
                       ${libdir}/lib*.a \
