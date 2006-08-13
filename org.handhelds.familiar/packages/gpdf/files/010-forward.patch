@@ -1,0 +1,29 @@
+--- gpdf-2.8.2.orig/xpdf/TextOutputDev.h
++++ gpdf-2.8.2/xpdf/TextOutputDev.h
+@@ -166,6 +166,8 @@
+ // TextLine
+ //------------------------------------------------------------------------
+ 
++class TextBlock;
++
+ class TextLine {
+ public:
+ 
+@@ -223,6 +225,8 @@
+ // TextBlock
+ //------------------------------------------------------------------------
+ 
++class TextPage;
++
+ class TextBlock {
+ public:
+ 
+@@ -342,6 +346,8 @@
+ // TextPage
+ //------------------------------------------------------------------------
+ 
++class TextLineFrag;
++
+ class TextPage {
+ public:
+ 

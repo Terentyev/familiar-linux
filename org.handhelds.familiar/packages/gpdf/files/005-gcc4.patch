@@ -1,0 +1,17 @@
+--- xpdf/gpdf-control.cc.orig
++++ xpdf/gpdf-control.cc
+@@ -209,12 +209,12 @@
+ 			   const gchar * status)
+ {
+ 	GPdfControlPrivate *priv;
+-	guint to_id;
++	gulong to_id;
+ 
+ 	g_return_if_fail (GPDF_IS_NON_NULL_CONTROL (control));
+ 	priv = control->priv;
+ 
+-	if ((to_id = (unsigned int)
++	if ((to_id = (gulong)
+ 	     g_object_get_data (G_OBJECT (control),
+ 				"status-timeout-id")) != 0) {
+ 		g_object_set_data (G_OBJECT (control),

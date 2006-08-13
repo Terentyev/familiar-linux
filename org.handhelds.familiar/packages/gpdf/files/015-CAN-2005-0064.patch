@@ -1,0 +1,44 @@
+--- gpdf-2.8.2.orig/xpdf/Decrypt.cc
++++ gpdf-2.8.2/xpdf/Decrypt.cc
+@@ -73,6 +73,11 @@
+   Guchar fx, fy;
+   int len, i, j;
+ 
++  // check whether we have non-zero keyLength
++  if ( !keyLength ) {
++    return gFalse;
++  }
++
+   // try using the supplied owner password to generate the user password
+   *ownerPasswordOk = gFalse;
+   if (ownerPassword) {
+@@ -98,7 +103,7 @@
+     } else {
+       memcpy(test2, ownerKey->getCString(), 32);
+       for (i = 19; i >= 0; --i) {
+-	for (j = 0; j < keyLength; ++j) {
++	for (j = 0; j < keyLength && j < 16; ++j) {
+ 	  tmpKey[j] = test[j] ^ i;
+ 	}
+ 	rc4InitKey(tmpKey, keyLength, fState);
+@@ -135,6 +140,11 @@
+   int len, i, j;
+   GBool ok;
+ 
++  // check whether we have non-zero keyLength
++  if ( !keyLength ) {
++    return gFalse;
++  }
++
+   // generate file key
+   buf = (Guchar *)gmalloc(68 + fileID->getLength());
+   if (userPassword) {
+@@ -172,7 +182,7 @@
+   } else if (encRevision == 3) {
+     memcpy(test, userKey->getCString(), 32);
+     for (i = 19; i >= 0; --i) {
+-      for (j = 0; j < keyLength; ++j) {
++      for (j = 0; j < keyLength && j < 16; ++j) {
+ 	tmpKey[j] = fileKey[j] ^ i;
+       }
+       rc4InitKey(tmpKey, keyLength, fState);

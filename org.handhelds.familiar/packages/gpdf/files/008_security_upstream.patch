@@ -1,0 +1,138 @@
+diff -u -p -Nr --exclude CVS gpdf-2.8.2.orig/goo/gmem.c gpdf-2.8.2/goo/gmem.c
+--- goo/gmem.c	2003-04-01 21:47:07.000000000 +0200
++++ goo/gmem.c	2006-02-14 09:07:50.000000000 +0100
+@@ -11,6 +11,7 @@
+ #include <stdlib.h>
+ #include <stddef.h>
+ #include <string.h>
++#include <limits.h>
+ #include "gmem.h"
+ 
+ #ifdef DEBUG_MEM
+@@ -62,7 +63,7 @@ void *gmalloc(int size) {
+   int lst;
+   unsigned long *trl, *p;
+ 
+-  if (size == 0)
++  if (size <= 0)
+     return NULL;
+   size1 = gMemDataSize(size);
+   if (!(mem = (char *)malloc(size1 + gMemHdrSize + gMemTrlSize))) {
+@@ -84,7 +85,7 @@ void *gmalloc(int size) {
+ #else
+   void *p;
+ 
+-  if (size == 0)
++  if (size <= 0)
+     return NULL;
+   if (!(p = malloc(size))) {
+     fprintf(stderr, "Out of memory\n");
+@@ -100,7 +101,7 @@ void *grealloc(void *p, int size) {
+   void *q;
+   int oldSize;
+ 
+-  if (size == 0) {
++  if (size <= 0) {
+     if (p)
+       gfree(p);
+     return NULL;
+@@ -118,7 +119,7 @@ void *grealloc(void *p, int size) {
+ #else
+   void *q;
+ 
+-  if (size == 0) {
++  if (size <= 0) {
+     if (p)
+       free(p);
+     return NULL;
+diff -u -p -Nr --exclude CVS gpdf-2.8.2.orig/splash/SplashXPathScanner.cc gpdf-2.8.2/splash/SplashXPathScanner.cc
+--- splash/SplashXPathScanner.cc	2004-05-17 20:10:56.000000000 +0200
++++ splash/SplashXPathScanner.cc	2006-02-14 08:58:47.000000000 +0100
+@@ -182,7 +182,7 @@ GBool SplashXPathScanner::getNextSpan(in
+ }
+ 
+ void SplashXPathScanner::computeIntersections(int y) {
+-  SplashCoord ySegMin, ySegMax, xx0, xx1;
++  SplashCoord xSegMin, xSegMax, ySegMin, ySegMax, xx0, xx1;
+   SplashXPathSeg *seg;
+   int i, j;
+ 
+@@ -232,19 +232,27 @@ void SplashXPathScanner::computeIntersec
+     } else if (seg->flags & splashXPathVert) {
+       xx0 = xx1 = seg->x0;
+     } else {
+-      if (ySegMin <= y) {
+-	// intersection with top edge
+-	xx0 = seg->x0 + (y - seg->y0) * seg->dxdy;
++      if (seg->x0 < seg->x1) {
++	xSegMin = seg->x0;
++	xSegMax = seg->x1;
+       } else {
+-	// x coord of segment endpoint with min y coord
+-	xx0 = (seg->flags & splashXPathFlip) ? seg->x1 : seg->x0;
++	xSegMin = seg->x1;
++	xSegMax = seg->x0;
+       }
+-      if (ySegMax >= y + 1) {
+-	// intersection with bottom edge
+-	xx1 = seg->x0 + (y + 1 - seg->y0) * seg->dxdy;
+-      } else {
+-	// x coord of segment endpoint with max y coord
+-	xx1 = (seg->flags & splashXPathFlip) ? seg->x0 : seg->x1;
++      // intersection with top edge
++      xx0 = seg->x0 + ((SplashCoord)y - seg->y0) * seg->dxdy;
++      // intersection with bottom edge
++      xx1 = seg->x0 + ((SplashCoord)y + 1 - seg->y0) * seg->dxdy;
++      // the segment may not actually extend to the top and/or bottom edges
++      if (xx0 < xSegMin) {
++	xx0 = xSegMin;
++      } else if (xx0 > xSegMax) {
++	xx0 = xSegMax;
++      }
++      if (xx1 < xSegMin) {
++	xx1 = xSegMin;
++      } else if (xx1 > xSegMax) {
++	xx1 = xSegMax;
+       }
+     }
+     if (xx0 < xx1) {
+diff -u -p -Nr --exclude CVS gpdf-2.8.2.orig/xpdf/JBIG2Stream.cc gpdf-2.8.2/xpdf/JBIG2Stream.cc
+--- xpdf/JBIG2Stream.cc	2006-02-14 08:53:37.000000000 +0100
++++ xpdf/JBIG2Stream.cc	2006-02-14 09:16:42.000000000 +0100
+@@ -683,7 +683,7 @@ JBIG2Bitmap::JBIG2Bitmap(Guint segNumA, 
+   h = hA;
+   line = (wA + 7) >> 3;
+ 
+-  if (h < 0 || line <= 0 || h >= (INT_MAX-1) / line)
++  if (w <= 0 || h <= 0 || line <= 0 || h >= (INT_MAX - 1) / line)
+     data = NULL;
+   else {
+     // need to allocate one extra guard byte for use in combine()
+@@ -2262,6 +2262,15 @@ void JBIG2Stream::readHalftoneRegionSeg(
+     goto eofError;
+   }
+ 
++  if (w == 0 || h == 0 || w >= INT_MAX / h) {
++    error(getPos(), "Bad bitmap size in JBIG2 halftone segment");
++    return;
++  }
++  if (gridH == 0 || gridW >= INT_MAX / gridH) {
++    error(getPos(), "Bad grid size in JBIG2 halftone segment");
++    return;
++  }
++
+   // get pattern dictionary
+   if (nRefSegs != 1) {
+     error(getPos(), "Bad symbol dictionary reference in JBIG2 halftone segment");
+diff -u -p -Nr --exclude CVS gpdf-2.8.2.orig/xpdf/Stream.h gpdf-2.8.2/xpdf/Stream.h
+--- xpdf/Stream.h	2006-02-14 08:53:37.000000000 +0100
++++ xpdf/Stream.h	2006-02-14 09:26:48.000000000 +0100
+@@ -534,7 +534,7 @@ private:
+   short getWhiteCode();
+   short getBlackCode();
+   short lookBits(int n);
+-  void eatBits(int n) { inputBits -= n; }
++  void eatBits(int n) { if ((inputBits -= n) < 0) inputBits = 0; }
+ };
+ 
+ //------------------------------------------------------------------------
