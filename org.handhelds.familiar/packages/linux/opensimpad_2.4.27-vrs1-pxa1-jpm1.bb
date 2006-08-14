@@ -7,7 +7,9 @@ VRSV = "${@bb.data.getVar('PV',d,True).split('-')[1]}"
 PXAV = "${@bb.data.getVar('PV',d,True).split('-')[2]}"
 JPMV = "${@bb.data.getVar('PV',d,True).split('-')[3]}"
 USBV= "usb20040610"
-PR = "r4"
+PR = "r5"
+
+PARALLEL_INSTALL_REPLACE_VERSIONS = "2.4.25-vrs2-pxa1-jpm1"
 
 FILESPATH = "${FILE_DIRNAME}/opensimpad-${PV}:${FILE_DIRNAME}/opensimpad:${FILE_DIRNAME}/files:${FILE_DIRNAME}"
 

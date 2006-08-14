@@ -158,8 +158,11 @@ PACKAGES = "kernel kernel-image kernel-dev"
 FILES = ""
 FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
 FILES_kernel-dev = "/boot/System.map* /boot/config*"
-RDEPENDS_kernel = "kernel-image-${KERNEL_VERSION}"
-PKG_kernel-image = "kernel-image-${KERNEL_VERSION}"
+RDEPENDS_kernel = "kernel-image-${KERNEL_MAJOR_VERSION}"
+PKG_kernel-image = "kernel-image-${KERNEL_MAJOR_VERSION}"
+RPROVIDES_kernel-image = "kernel-image-${KERNEL_VERSION}"
+RCONFLICTS_kernel-image = "kernel-image-${KERNEL_VERSION}"
+RREPLACES_kernel-image = "kernel-image-${KERNEL_VERSION}"
 ALLOW_EMPTY_kernel = "1"
 ALLOW_EMPTY_kernel-image = "1"
 
@@ -343,7 +346,7 @@ python populate_packages_prepend () {
 
 	postinst = bb.data.getVar('pkg_postinst_modules', d, 1)
 	postrm = bb.data.getVar('pkg_postrm_modules', d, 1)
-	do_split_packages(d, root='/lib/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='update-modules kernel-image-%s' % bb.data.getVar("KERNEL_VERSION", d, 1))
+	do_split_packages(d, root='/lib/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='update-modules kernel-image-%s' % bb.data.getVar("KERNEL_MAJOR_VERSION", d, 1))
 
 	import re, os
 	metapkg = "kernel-modules"
@@ -369,6 +372,7 @@ python populate_packages_prepend () {
 		kv = bb.data.getVar("KERNEL_MAJOR_VERSION", d, 1)
 		packages = bb.data.getVar("PACKAGES", d, 1)
 		module_re = re.compile("^kernel-module-")
+		repl_vers = bb.data.getVar("PARALLEL_INSTALL_REPLACE_VERSIONS", d, 1)
 		for p in packages.split():
 			if not module_re.match(p):
 				continue
@@ -381,4 +385,40 @@ python populate_packages_prepend () {
 			else:
 				rprovides = pkg
 			bb.data.setVar("RPROVIDES_%s" % p, rprovides, d)
+
+			# kv was changed from KERNEL_VERSION to KERNEL_MAJOR_VERSION.
+			# now fix the upgrade path...
+			if repl_vers:
+				repl_pkgs = []
+				for v in repl_vers.split():
+					repl_pkgs.append("%s-%s" % (pkg, v))
+				for i in ["PROVIDES", "CONFLICTS", "REPLACES"]:
+					val = bb.data.getVar("R%s_%s" % (i, p), d, 1)
+					if val:
+						old = val.split()
+						add = []
+						for k in repl_pkgs:
+							if not k in old:
+								add.append(k)
+						val = "%s %s" % (val, " ".join(add))
+					else:
+						val = "%s" % " ".join(repl_pkgs)
+					bb.data.setVar("R%s_%s" % (i, p), val, d)
+		if repl_vers:
+			p = "kernel-image"
+			repl_pkgs = []
+			for v in repl_vers.split():
+				repl_pkgs.append("%s-%s" % (p, v))
+			for i in ["PROVIDES", "CONFLICTS", "REPLACES"]:
+				val = bb.data.getVar("R%s_%s" % (i, p), d, 1)
+				if val:
+					old = val.split()
+					add = []
+					for k in repl_pkgs:
+						if not k in old:
+							add.append(k)
+					val = "%s %s" % (val, " ".join(add))
+				else:
+					val = "%s" % " ".join(repl_pkgs)
+				bb.data.setVar("R%s_%s" % (i, p), val, d)
 }

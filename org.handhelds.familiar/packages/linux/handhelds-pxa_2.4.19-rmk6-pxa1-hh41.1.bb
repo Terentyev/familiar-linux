@@ -2,11 +2,13 @@ SECTION = "kernel"
 DESCRIPTION = "handhelds.org Linux kernel for PXA25x based devices."
 MAINTAINER = "Phil Blundell <pb@handhelds.org>"
 LICENSE = "GPL"
-PR = "r2"
+PR = "r3"
 
 
 KERNEL_CCSUFFIX = "-3.3.4"
 COMPATIBLE_HOST = "arm.*-linux"
+
+PARALLEL_INSTALL_REPLACE_VERSIONS = "2.4.19-rmk6-pxa1-hh37"
 
 SRC_URI = "${HANDHELDS_CVS};module=linux/kernel;tag=${@'K' + bb.data.getVar('PV',d,1).replace('.', '-')} \
 	   file://defconfig-${PACKAGE_ARCH} \
