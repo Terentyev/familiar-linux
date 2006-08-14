@@ -2,9 +2,13 @@ DESCRIPTION = "Alsa Drivers"
 MAINTAINER = "Rene Wagner <rw@handhelds.org>"
 SECTION = "base"
 LICENSE = "GPL"
-PR = "r8"
+PR = "r9"
 
 DEPENDS += "fakeroot-native virtual/kernel"
+
+RPROVIDES = "${@linux_module_packages('h3600-uda1341 uda1341', d)}"
+RCONFLICTS = "${@linux_module_packages('h3600-uda1341 uda1341', d)}"
+RREPLACES = "${@linux_module_packages('h3600-uda1341 uda1341', d)}"
 
 SRC_URI = "ftp://ftp.handhelds.org/packages/alsa-driver/alsa-driver-${PV}.tar.gz \
 	file://sound.p.patch;patch=1 \
