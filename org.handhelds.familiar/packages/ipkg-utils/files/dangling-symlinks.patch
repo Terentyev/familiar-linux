@@ -1,0 +1,11 @@
+--- bin/ipkg-build.orig	2006-08-16 13:08:22.000000000 +0200
++++ bin/ipkg-build	2006-08-16 13:08:25.000000000 +0200
+@@ -141,7 +141,7 @@
+ 
+ 	if [ -f $CONTROL/conffiles ]; then
+ 		for cf in `cat $CONTROL/conffiles`; do
+-			if [ ! -f ./$cf ]; then
++			if [ ! -L ./$cf -a ! -f ./$cf ]; then
+ 				echo "*** Error: $CONTROL/conffiles mentions conffile $cf which does not exist" >&2
+ 				PKG_ERROR=1
+ 			fi
