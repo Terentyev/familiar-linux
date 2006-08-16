@@ -60,6 +60,8 @@ python package_ipk_install () {
 		raise bb.build.FuncFailed
 }
 
+EPOCH ?= ""
+
 python do_package_ipk () {
 	import copy # to back up env data
 	import sys
@@ -138,7 +140,7 @@ python do_package_ipk () {
 			raise bb.build.FuncFailed("unable to open control file for writing.")
 
 		fields = []
-		fields.append(["Version: %s-%s\n", ['PV', 'PR']])
+		fields.append(["Version: %s%s-%s\n", ['EPOCH', 'PV', 'PR']])
 		fields.append(["Description: %s\n", ['DESCRIPTION']])
 		fields.append(["Section: %s\n", ['SECTION']])
 		fields.append(["Priority: %s\n", ['PRIORITY']])

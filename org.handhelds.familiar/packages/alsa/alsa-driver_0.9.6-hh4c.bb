@@ -2,13 +2,11 @@ DESCRIPTION = "Alsa Drivers"
 MAINTAINER = "Rene Wagner <rw@handhelds.org>"
 SECTION = "base"
 LICENSE = "GPL"
-PR = "r9"
+
+EPOCH = "1:"
+PR = "r11"
 
 DEPENDS += "fakeroot-native virtual/kernel"
-
-RPROVIDES = "${@linux_module_packages('h3600-uda1341 uda1341', d)}"
-RCONFLICTS = "${@linux_module_packages('h3600-uda1341 uda1341', d)}"
-RREPLACES = "${@linux_module_packages('h3600-uda1341 uda1341', d)}"
 
 SRC_URI = "ftp://ftp.handhelds.org/packages/alsa-driver/alsa-driver-${PV}.tar.gz \
 	file://sound.p.patch;patch=1 \
@@ -17,6 +15,15 @@ SRC_URI = "ftp://ftp.handhelds.org/packages/alsa-driver/alsa-driver-${PV}.tar.gz
 	file://adriver.h.patch;patch=1"
 
 inherit autotools module update-rc.d
+
+RPROVIDES_${PN} += "${@linux_module_packages('h3600-uda1341 uda1341', d)}"
+RCONFLICTS_${PN} += "${@linux_module_packages('h3600-uda1341 uda1341', d)}"
+RREPLACES_${PN} += "${@linux_module_packages('h3600-uda1341 uda1341', d)}"
+
+# the same for old style naming...
+RPROVIDES_${PN} += "kernel-module-h3600-uda1341-2.4.19-rmk6-pxa1-hh37 kernel-module-h3600-uda1341-2.4.19-rmk6-pxa1-hh37"
+RCONFLICTS_${PN} += "kernel-module-h3600-uda1341-2.4.19-rmk6-pxa1-hh37 kernel-module-h3600-uda1341-2.4.19-rmk6-pxa1-hh37"
+RREPLACES_${PN} += "kernel-module-h3600-uda1341-2.4.19-rmk6-pxa1-hh37 kernel-module-h3600-uda1341-2.4.19-rmk6-pxa1-hh37"
 
 INITSCRIPT_NAME = "alsa-driver"
 INITSCRIPT_PARAMS = "start 29 S . stop 29 0 6 1 ."
