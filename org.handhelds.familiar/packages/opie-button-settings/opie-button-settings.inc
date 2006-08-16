@@ -17,8 +17,9 @@ do_install() {
 	install -m 0644 ${WORKDIR}/pics/devicebuttons/*.png ${D}${palmtopdir}/pics/devicebuttons/
 }
 
-PACKAGES_prepend = "opie-button-settings-pics "
+PACKAGES =+ "opie-button-settings-pics"
 PACKAGE_ARCH_opie-button-settings-pics = "${MACHINE_ARCH}"
+FILES_${PN} = "${palmtopdir}/pics/${APPNAME}/"
 FILES_opie-button-settings-pics = "${palmtopdir}/pics/devicebuttons/z*" 
 FILES_opie-button-settings-pics_h3600 = "${palmtopdir}/pics/devicebuttons/ipaq*"
 FILES_opie-button-settings-pics_h3900 = "${palmtopdir}/pics/devicebuttons/ipaq*"
