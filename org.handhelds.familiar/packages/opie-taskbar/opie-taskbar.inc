@@ -6,6 +6,12 @@ MAINTAINER = "Team Opie <opie@handhelds.org>"
 DEPENDS = "opie-libqrsync opie-qss"
 APPNAME = "qpe"
 
+SRC_URI_append = " file://opie-background.jpg \
+                  file://opie-background-480x640.jpg \
+		  file://opie-background-800x600.jpg \
+		  file://firstuse.jpg \
+		  file://firstuse-480x640.jpg \
+		  file://firstuse-800x600.jpg"
 S = "${WORKDIR}/launcher"
 
 # Caps/Numlock icons for devices with keyboard
@@ -46,6 +52,9 @@ SECTIONS = "1Pim Applications Examples Games Opie-SH Python Settings"
 PICS = "opielogo32x32.png start_button.png new_wait.png opielogo16x16.png sidebar.png"
 
 do_install() {
+	for i in ${WORKDIR}/*jpg; do
+		cp $i ${WORKDIR}/pics/launcher
+	done
 	install -d ${D}${palmtopdir}/bin
 	for i in ${SECTIONS}
 	do
