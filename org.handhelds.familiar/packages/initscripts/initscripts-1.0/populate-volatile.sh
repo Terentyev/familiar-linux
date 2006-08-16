@@ -6,6 +6,8 @@ CFGDIR="/etc/default/volatiles"
 TMPROOT="/var/tmp"
 COREDEF="00_core"
 
+ls ${CFGDIR}/*  2> /dev/null > /dev/null || exit 0
+
 [ "${VERBOSE}" != "no" ] && echo "Populating volatile Filesystems."
 
 

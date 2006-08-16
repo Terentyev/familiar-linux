@@ -1,10 +1,10 @@
 DESCRIPTION = "Miscellaneous files for the base system."
 SECTION = "base"
 PRIORITY = "required"
-PR = "r48"
 LICENSE = "GPL"
+PR = "r49"
 
-PACKAGE_ARCH = "${MACHINE_ARCH}"
+RDEPENDS = " initscripts (>= 1.0-r62)"
 
 SRC_URI = " \
            file://nsswitch.conf \
@@ -27,6 +27,19 @@ SRC_URI = " \
            file://licenses/Artistic "
 S = "${WORKDIR}"
 
+
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
+PACKAGES = "${PN}-doc ${PN}"
+FILES_${PN} = "/"
+FILES_${PN}-doc = "${docdir}"
+
+
+CONFFILES_${PN} = "${sysconfdir}/resolv.conf \
+                   ${sysconfdir}/fstab \
+		   ${sysconfdir}/hostname"
+
+
 docdir_append = "/${P}"
 dirs1777 = "/tmp ${localstatedir}/lock ${localstatedir}/tmp"
 dirs2775 = "/home ${prefix}/src ${localstatedir}/local"
@@ -41,19 +54,28 @@ dirs755 = "/bin /boot /dev ${sysconfdir} ${sysconfdir}/default \
 	   ${localstatedir}/lock/subsys ${localstatedir}/log \
 	   ${localstatedir}/run ${localstatedir}/spool \
 	   /mnt /media /media/card /media/cf /media/net /media/ram \
-	   /media/union /media/realroot /media/hdd \
+	   /media/hdd \
            /media/mmc1"
 conffiles = "${sysconfdir}/debian_version ${sysconfdir}/host.conf \
 	     ${sysconfdir}/inputrc ${sysconfdir}/issue /${sysconfdir}/issue.net \
 	     ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile \
 	     ${sysconfdir}/default"
 
+def filter_tmpfs(files, d):
+	r = []
+	for f in files.split():
+		if f.startswith("${localstatedir}") or f.startswith("/var"):
+			r.append(f)
+	return " ".join(r)
+
+tmpfsdirs1777 = "${@filter_tmpfs(bb.data.getVar("dirs1777", d, 0), d)}"
+tmpfsdirs2775 = "${@filter_tmpfs(bb.data.getVar("dirs2775", d, 0), d)}"
+tmpfsdirs755 = "${@filter_tmpfs(bb.data.getVar("dirs755", d, 0), d)}"
+tmpfsfiles664 = "${localstatedir}/run/utmp \
+		 ${localstatedir}/log/wtmp \
+		 ${localstatedir}/log/lastlog"
+
 hostname = "openembedded"
-hostname_openslug = "openslug"
-hostname_mnci = "MNCI"
-PACKAGE_ARCH_mnci = "mnci"
-hostname_rt3000 = "MNRT"
-PACKAGE_ARCH_rt3000 = "rt3000"
 
 do_install () {
 	for d in ${dirs755}; do
@@ -107,76 +129,27 @@ do_install () {
 		install -m 0644 ${WORKDIR}/licenses/$license ${D}${datadir}/common-licenses/
 	done
 
+	if (grep -q "^\(tmpfs\|ramfs\)\W\+/var" ${D}${sysconfdir}/fstab); then
+		# remove from package
+		rm -rf ${D}${localstatedir}/*
+
+		# create on boot
+		install -d ${D}${sysconfdir}/init.d ${D}${sysconfdir}/rcS.d
+		echo "mkdir -p ${tmpfsdirs1777}" >> ${D}${sysconfdir}/init.d/populate-var.sh
+		echo "chmod 1777 ${tmpfsdirs1777}" >> ${D}${sysconfdir}/init.d/populate-var.sh
+		echo "mkdir -p ${tmpfsdirs2775}" >> ${D}${sysconfdir}/init.d/populate-var.sh
+		echo "chmod 2775 ${tmpfsdirs2775}" >> ${D}${sysconfdir}/init.d/populate-var.sh
+		echo "mkdir -p ${tmpfsdirs755}" >> ${D}${sysconfdir}/init.d/populate-var.sh
+		echo "chmod 0755 ${tmpfsdirs755}" >> ${D}${sysconfdir}/init.d/populate-var.sh
+		echo "touch ${tmpfsfiles664}" >> ${D}${sysconfdir}/init.d/populate-var.sh
+		echo "chmod 0664 ${tmpfsfiles664}" >> ${D}${sysconfdir}/init.d/populate-var.sh
+		chmod 0755 ${D}${sysconfdir}/init.d/populate-var.sh
+		ln -sf ../init.d/populate-var.sh ${D}${sysconfdir}/rcS.d/S37populate-var.sh
+
+		# ship symlinks
+		ln -sf ${localstatedir}/run/resolv.conf ${D}${sysconfdir}/resolv.conf
+		ln -sf ${localstatedir}/ld.so.cache ${D}${sysconfdir}/ld.so.cache
+	fi
+
 	ln -sf /proc/mounts ${D}${sysconfdir}/mtab
 }
-
-
-do_install_append_mnci () {
-	rmdir ${D}/tmp
-	mkdir -p ${D}${localstatedir}/tmp
-	ln -s var/tmp ${D}/tmp
-}
-
-do_install_append_nylon() {
-	printf "" "" >${D}${sysconfdir}/resolv.conf
-	rm -r ${D}/mnt/*
-	rm -r ${D}/media
-	rm -rf ${D}/tmp
-	ln -sf /var/tmp ${D}/tmp
-}
-
-do_install_append_openslug() {
-	printf "" "" >${D}${sysconfdir}/resolv.conf
-	rm -r ${D}/mnt/*
-	rmdir ${D}/home/root
-	install -m 0755 -d ${D}/root
-	ln -s ../root ${D}/home/root
-}
-
-
-#some familiar stuff below
-do_install_append_familiar() {
-	mkdir -p ${D}/${sysconfdir}/default/volatiles
-	echo "l root root 644 /etc/resolv.conf /var/run/resolv.conf" > ${D}/${sysconfdir}/default/volatiles/01_resolv.conf
-}
-
-do_install_append_openzaurus() {
-	mkdir -p ${D}/${sysconfdir}/default/volatiles
-	echo "l root root 644 /etc/resolv.conf /var/run/resolv.conf" > ${D}/${sysconfdir}/default/volatiles/01_resolv.conf
-}
-
-pkg_postinst_familiar() {
-#!/bin/sh
-/etc/init.d/populate-volatile.sh
-}
-
-pkg_postinst_openzaurus() {
-#!/bin/sh
-/etc/init.d/populate-volatile.sh
-}
-
-DEPENDS_append_familiar = " initscripts" 
-RDEPENDS_append_familiar = " initscripts (>= 1.0-r60)"
-DEPENDS_append_openzaurus = " initscripts" 
-RDEPENDS_append_openzaurus = " initscripts (>= 1.0-r60)"
-
-
-PACKAGES = "${PN}-doc ${PN}"
-FILES_${PN} = "/"
-FILES_${PN}-doc = "${docdir} ${datadir}/common-licenses"
-
-
-# Unslung distribution specific packages follow ...
-
-PACKAGES_unslung = "${PN}-unslung"
-PACKAGE_ARCH_${PN}-unslung = "nslu2"
-MAINTAINER_${PN}-unslung = "NSLU2 Linux <www.nslu2-linux.org>"
-RDEPENDS_${PN}-unslung = "nslu2-linksys-ramdisk"
-RPROVIDES_${PN}-unslung = "${PN}"
-
-FILES_${PN}-unslung = ""
-
-CONFFILES_${PN} = "${sysconfdir}/fstab ${sysconfdir}/hostname"
-CONFFILES_${PN}_nylon = "${sysconfdir}/resolv.conf ${sysconfdir}/fstab ${sysconfdir}/hostname"
-CONFFILES_${PN}_openslug = "${sysconfdir}/resolv.conf ${sysconfdir}/fstab ${sysconfdir}/hostname"
-
