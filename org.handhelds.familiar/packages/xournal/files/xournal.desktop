@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Notes
+Name[de]=Notizen
+Comment=Xournal Notetaking Application
+Exec=xournal
+Terminal=false
+Type=Application
+Icon=xournal.png
+Categories=Application;Office;PIM;GPE;
+StartupNotify=true
