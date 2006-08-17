@@ -5,7 +5,7 @@ MAINTAINER = "Phil Blundell <pb@handhelds.org>"
 SECTION = "gpe"
 PRIORITY = "optional"
 LICENSE = "GPL"
-PR = "r2"
+PR = "r3"
 
 SRC_URI += "file://svg-cairo-only.patch;patch=1 \
             file://splash-p.svg \
