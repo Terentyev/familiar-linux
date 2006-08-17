@@ -4,7 +4,7 @@ SECTION = "base"
 LICENSE = "GPL"
 
 EPOCH = "1:"
-PR = "r11"
+PR = "r12"
 
 DEPENDS += "fakeroot-native virtual/kernel"
 
@@ -21,9 +21,9 @@ RCONFLICTS_${PN} += "${@linux_module_packages('h3600-uda1341 uda1341', d)}"
 RREPLACES_${PN} += "${@linux_module_packages('h3600-uda1341 uda1341', d)}"
 
 # the same for old style naming...
-RPROVIDES_${PN} += "kernel-module-h3600-uda1341-2.4.19-rmk6-pxa1-hh37 kernel-module-h3600-uda1341-2.4.19-rmk6-pxa1-hh37"
-RCONFLICTS_${PN} += "kernel-module-h3600-uda1341-2.4.19-rmk6-pxa1-hh37 kernel-module-h3600-uda1341-2.4.19-rmk6-pxa1-hh37"
-RREPLACES_${PN} += "kernel-module-h3600-uda1341-2.4.19-rmk6-pxa1-hh37 kernel-module-h3600-uda1341-2.4.19-rmk6-pxa1-hh37"
+RPROVIDES_${PN} += "kernel-module-h3600-uda1341-2.4.19-rmk6-pxa1-hh37 kernel-module-uda1341-2.4.19-rmk6-pxa1-hh37"
+RCONFLICTS_${PN} += "kernel-module-h3600-uda1341-2.4.19-rmk6-pxa1-hh37 kernel-module-uda1341-2.4.19-rmk6-pxa1-hh37"
+RREPLACES_${PN} += "kernel-module-h3600-uda1341-2.4.19-rmk6-pxa1-hh37 kernel-module-uda1341-2.4.19-rmk6-pxa1-hh37"
 
 INITSCRIPT_NAME = "alsa-driver"
 INITSCRIPT_PARAMS = "start 29 S . stop 29 0 6 1 ."
