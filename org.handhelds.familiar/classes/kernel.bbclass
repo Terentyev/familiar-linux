@@ -270,7 +270,7 @@ python populate_packages_prepend () {
 					m4 = re.match(pattern4, line)
 					deps[m2.group(1)].extend(m4.group(1).split())
 			line = f.readline()
-		if f.close() or not deps:
+		if f.close(): # or not deps:
 			# depmod returned an error or no deps found (very unlikely)
 			raise bb.build.FuncFailed("Failed to extract module dependencies.")
 		return deps
