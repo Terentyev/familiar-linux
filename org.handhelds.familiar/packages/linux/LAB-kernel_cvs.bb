@@ -1,11 +1,7 @@
 SECTION = "kernel"
-DESCRIPTION = "Liux As Bootloader kernelm"
-MAINTAINER = "Koen Kooi <koen@linuxtogo.org>"
+DESCRIPTION = "Linux As Bootloader kernel"
 LICENSE = "GPL"
 PV = "${K_MAJOR}.${K_MINOR}.${K_MICRO}-hh${HHV}+cvs${CVSDATE}"
-
-#!BIG FAT WARNING:
-#build this *before* building your real kernel, otherwise external modules will pickup the wrong headers
 
 DEFAULT_PREFERENCE = "-1"
 
@@ -23,8 +19,7 @@ S = "${WORKDIR}/kernel26"
 
 inherit kernel
 
-FILES_kernel-image_h2200 = ""
-ALLOW_EMPTY_kernel-image_h2200 = 1
+KERNEL_NO_MODULES = "1"
 
 K_MAJOR = "2"
 K_MINOR = "6"
@@ -44,6 +39,14 @@ do_configure() {
 	install -m 0644 ${WORKDIR}/initramfs_list ${S}/initramfs_list
 
         yes '' | oe_runmake oldconfig
+}
+
+do_stage() {
+	:
+}
+
+python do_package() {
+	return
 }
 
 do_deploy() {
