@@ -90,7 +90,7 @@ log_check() {
 		then
 			lf_txt="`cat $lf_path`"
 			
-			for keyword_die in "Cannot find package" "exit 1" ERR Fail
+			for keyword_die in "Cannot find package" "exit 1" ERR
 			do				
 				
 				if (echo "$lf_txt" | grep -v log_check | grep "$keyword_die") &>/dev/null
