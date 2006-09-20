@@ -4,6 +4,7 @@ MAINTAINER = "Rene Wagner <rw@handhelds.org>, Paul Parsons <lost.distance@yahoo.
 SECTION = "x11"
 PRIORITY = "optional"
 LICENSE = "MPL/LGPL/GPL"
+EPOCH = "1:"
 
 CVSDATE="20060720"
 
