@@ -1,0 +1,16 @@
+Index: nsprpub/config/rules.mk
+===================================================================
+RCS file: /cvsroot/mozilla/nsprpub/config/rules.mk,v
+retrieving revision 3.46.2.19
+diff -u -r3.46.2.19 rules.mk
+--- mozilla/nsprpub/config/rules.mk	22 Feb 2006 02:33:33 -0000	3.46.2.19
++++ mozilla/nsprpub/config/rules.mk	1 May 2006 17:06:37 -0000
+@@ -90,6 +90,8 @@
+ CFLAGS=$(HOST_CFLAGS)
+ CXXFLAGS=$(HOST_CXXFLAGS)
+ LDFLAGS=$(HOST_LDFLAGS)
++RANLIB=$(HOST_RANLIB)
++AR=$(HOST_AR)
+ endif
+ endif
+ endif

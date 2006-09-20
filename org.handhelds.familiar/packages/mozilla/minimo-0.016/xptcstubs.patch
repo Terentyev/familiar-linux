@@ -1,0 +1,21 @@
+--- mozilla/xpcom/reflect/xptcall/src/md/unix/xptcstubs_arm.cpp	2006-05-01 16:11:03.000000000 -0400
++++ mozilla2/xpcom/reflect/xptcall/src/md/unix/xptcstubs_arm.cpp	2006-05-01 17:27:32.176604512 -0400
+@@ -40,17 +40,17 @@
+ 
+ #include "xptcprivate.h"
+ 
+ #if !defined(LINUX) || !defined(__arm__)
+ #error "This code is for Linux ARM only. Please check if it works for you, too.\nDepends strongly on gcc behaviour."
+ #endif
+ 
+ /* Specify explicitly a symbol for this function, don't try to guess the c++ mangled symbol.  */
+-static nsresult PrepareAndDispatch(nsXPTCStubBase* self, uint32 methodIndex, PRUint32* args) asm("_PrepareAndDispatch");
++static nsresult PrepareAndDispatch(nsXPTCStubBase* self, uint32 methodIndex, PRUint32* args) asm("_PrepareAndDispatch") __attribute__((used));
+ 
+ static nsresult
+ PrepareAndDispatch(nsXPTCStubBase* self, uint32 methodIndex, PRUint32* args)
+ {
+ #define PARAM_BUFFER_COUNT     16
+ 
+     nsXPTCMiniVariant paramBuffer[PARAM_BUFFER_COUNT];
+     nsXPTCMiniVariant* dispatchParams = NULL;
