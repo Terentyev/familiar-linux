@@ -1,4 +1,4 @@
-DESCRIPTION = "A minimal version of the Mozilla web browser"
+DESCRIPTION = "A small, simple, powerful, innovative, web browser for mobile devices"
 HOMEPAGE = "http://www.mozilla.org/projects/minimo/"
 MAINTAINER = "Rene Wagner <rw@handhelds.org>, Paul Parsons <lost.distance@yahoo.com>"
 SECTION = "x11"
