@@ -13,6 +13,7 @@ SRC_URI = "cvs://anonymous@cvs-mirror.mozilla.org/cvsroot;module=mozilla \
 	   file://no-xmb.patch;patch=1 \
 	   file://host_ldflags_fix.patch;patch=1 \
 	   file://lost-distance.patch;patch=1 \
+	   file://minimo-components-ssr-only.patch;patch=1 \
 	   file://minimo.png \
 	   file://minimo.desktop"
 S = "${WORKDIR}/mozilla"

@@ -47,21 +47,6 @@ diff -u -r3.95.4.4 Makefile.in
  LIB_IS_C_ONLY	= 1
  GRE_MODULE	= 1
  
-Index: mozilla/minimo/Makefile.in
-===================================================================
-RCS file: /cvsroot/mozilla/minimo/Makefile.in,v
-retrieving revision 1.1.2.2
-diff -u -r1.1.2.2 Makefile.in
---- mozilla/minimo/Makefile.in	29 Jun 2006 06:11:30 -0000	1.1.2.2
-+++ mozilla/minimo/Makefile.in	20 Sep 2006 12:10:50 -0000
-@@ -41,6 +41,6 @@
- 
- include $(DEPTH)/config/autoconf.mk
- 
--DIRS = config components chrome locales customization base 
-+DIRS = config chrome locales customization base 
- 
- include $(topsrcdir)/config/rules.mk
 Index: mozilla/minimo/base/Makefile.in
 ===================================================================
 RCS file: /cvsroot/mozilla/minimo/base/Makefile.in,v
