@@ -2,6 +2,9 @@ DESCRIPTION = "The GNU compression utility"
 LICENSE = "GPL"
 SECTION = "console/utils"
 PRIORITY = "required"
+PR = "r1"
+
+RRECOMMENDS_${PN} = "less"
 
 inherit autotools debian-vampyre
 
