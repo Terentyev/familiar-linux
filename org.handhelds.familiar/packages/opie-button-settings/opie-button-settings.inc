@@ -18,8 +18,11 @@ do_install() {
 }
 
 PACKAGES =+ "opie-button-settings-pics"
+FILES_${PN} = "${palmtopdir}/apps \
+	${palmtopdir}/bin \
+	${palmtopdir}/plugins \
+	${palmtopdir}/pics/${APPNAME}"
 PACKAGE_ARCH_opie-button-settings-pics = "${MACHINE_ARCH}"
-FILES_${PN} = "${palmtopdir}/pics/${APPNAME}/"
 FILES_opie-button-settings-pics = "${palmtopdir}/pics/devicebuttons/z*" 
 FILES_opie-button-settings-pics_h3600 = "${palmtopdir}/pics/devicebuttons/ipaq*"
 FILES_opie-button-settings-pics_h3900 = "${palmtopdir}/pics/devicebuttons/ipaq*"
