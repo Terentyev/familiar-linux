@@ -9,10 +9,11 @@ SRC_URI = "http://www1.mplayerhq.hu/MPlayer/releases/MPlayer-${PV}.tar.bz2 \
            file://sdl.patch;patch=0 \
            file://zlib.patch;patch=0 \
            file://libmpdemux-ogg-include.patch;patch=1 \
-           file://libmpcodecs-ogg-include.patch;patch=1 "
+           file://libmpcodecs-ogg-include.patch;patch=1 \
+           file://go-mad.patch;patch=1 "
 MAINTAINER="Graeme Gregory <dp@xora.org.uk>"
 RCONFLICTS_${PN} = "mplayer-atty"
-PR = "r2"
+PR = "r3"
 
 PARALLEL_MAKE = ""
 
@@ -56,6 +57,7 @@ EXTRA_OECONF = " \
         --enable-sdl \
         --with-sdl-config=${STAGING_BINDIR}/sdl-config \
         \
+        --disable-mp3lib \
         --enable-mad \
 	--enable-tremor-low \
         \
