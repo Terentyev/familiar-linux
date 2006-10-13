@@ -238,7 +238,7 @@ python populate_packages_prepend () {
 		path = bb.data.getVar("PATH", d, 1)
 		host_prefix = bb.data.getVar("HOST_PREFIX", d, 1) or ""
 
-		cmd = "PATH=\"%s\" %sdepmod -n -a -r -b %s -F %s/boot/System.map-%s %s" % (path, host_prefix, dvar, dvar, kernelver, kernelver_stripped)
+		cmd = "PATH=\"%s\" %sdepmod -n -a -e -r -b %s -F %s/boot/System.map-%s %s" % (path, host_prefix, dvar, dvar, kernelver, kernelver_stripped)
 		bb.debug (1, cmd)
 		f = os.popen(cmd, 'r')
 
