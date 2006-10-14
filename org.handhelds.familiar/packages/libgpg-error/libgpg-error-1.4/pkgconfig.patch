@@ -1,0 +1,43 @@
+--- libgpg-error-1.4/configure.ac	2006-09-14 15:15:15.000000000 +0200
++++ libgpg-error-1.4.new/configure.ac	2006-10-10 00:35:51.000000000 +0200
+@@ -119,6 +119,7 @@
+ AC_SUBST(GPG_ERROR_CONFIG_LIBS)
+ AC_SUBST(GPG_ERROR_CONFIG_CFLAGS)
+ AC_CONFIG_FILES([src/gpg-error-config], [chmod +x src/gpg-error-config])
++AC_CONFIG_FILES([src/gpg-error.pc])
+ 
+ 
+ # Special defines for certain platforms
+--- libgpg-error-1.4/src/Makefile.am	2006-09-05 20:21:14.000000000 +0200
++++ libgpg-error-1.4.new/src/Makefile.am	2006-10-10 00:37:47.000000000 +0200
+@@ -29,13 +29,16 @@
+ m4datadir = $(datadir)/aclocal
+ m4data_DATA = gpg-error.m4
+ 
++pkgconfigdir = $(libdir)/pkgconfig
++pkgconfig_DATA = gpg-error.pc
++
+ 
+ EXTRA_DIST = mkstrtable.awk err-sources.h.in err-codes.h.in \
+ 	mkerrnos.awk errnos.in \
+ 	mkerrcodes.awk mkerrcodes1.awk mkerrcodes2.awk mkerrcodes.c \
+ 	mkheader.awk gpg-error.h.in \
+ 	err-sources.h err-codes.h gpg-error-config.in gpg-error.m4 \
+-	gpg-error.def versioninfo.rc.in
++	gpg-error.def versioninfo.rc.in gpg-error.pc.in
+ 
+ BUILT_SOURCES = err-sources.h err-codes.h code-to-errno.h code-from-errno.h \
+ 	err-sources-sym.h err-codes-sym.h errnos-sym.h gpg-error.h
+--- libgpg-error-1.4/src/gpg-error.pc.in	1970-01-01 01:00:00.000000000 +0100
++++ libgpg-error-1.4.new/src/gpg-error.pc.in	2006-10-10 00:35:51.000000000 +0200
+@@ -0,0 +1,10 @@
++prefix=@prefix@
++exec_prefix=@exec_prefix@
++libdir=@libdir@
++includedir=@includedir@
++
++Name: gpg-error
++Description: a library that defines common error values for all GnuPG components
++Version: @VERSION@
++Libs: -L{libdir} -lgpg-error
++Cflags: -I${includedir}
