@@ -6,7 +6,7 @@
 geometry=240x310
 
 # Set the home location
-home=http://www.google.com/palm/
+home=http://www.google.com/pda
 
 # Set the proxy information for http
 #http_proxy=http://localhost:8080/
@@ -22,7 +22,7 @@ use_oblique=YES
 # the hexdecimal version (in C style)
 
 # Set the background color
-# bg_color=gray
+bg_color=white
 # bg_color=0xd6d6c0
 # bg_color=0xdcd1ba
 
@@ -48,7 +48,7 @@ show_alt=YES
 # tiny   :  recommended for iPAQ (with small_icons)
 # medium :  nice!
 # large  :  Traditional
-panel_size=stack
+panel_size=tiny
 small_icons=YES
 
 # Set this to YES, if you want to limit the word wrap width to the vieport
@@ -60,10 +60,11 @@ use_dicache=YES
 show_back               = YES
 show_forw               = YES
 show_home               = YES
-show_save               = YES
+show_save               = NO
+show_reload             = NO
 show_stop               = YES
-show_menubar            = YES
-show_clear_url          = YES
+show_menubar            = NO
+show_clear_url          = NO
 show_url                = YES
 show_progress_box       = NO
 transient_dialogs       = YES
