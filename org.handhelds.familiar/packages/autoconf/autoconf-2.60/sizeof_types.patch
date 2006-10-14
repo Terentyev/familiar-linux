@@ -1,0 +1,50 @@
+diff -ur autoconf-2.60.orig/lib/autoconf/types.m4 autoconf-2.60/lib/autoconf/types.m4
+--- autoconf-2.60.orig/lib/autoconf/types.m4	2006-06-22 20:13:40.000000000 +0200
++++ autoconf-2.60/lib/autoconf/types.m4	2006-10-10 01:43:03.000000000 +0200
+@@ -663,27 +663,34 @@
+ # Generic checks.  #
+ # ---------------- #
+ 
++AC_DEFUN([AC_PROG_SIZE],
++[
++  AC_CHECK_TOOL(SIZE, size, :)
++])
+ 
+ # AC_CHECK_SIZEOF(TYPE, [IGNORED], [INCLUDES = DEFAULT-INCLUDES])
+ # ---------------------------------------------------------------
+ AC_DEFUN([AC_CHECK_SIZEOF],
+-[AS_LITERAL_IF([$1], [],
++[AC_REQUIRE([AC_PROG_SIZE])
++AC_REQUIRE([AC_PROG_AWK])
++ AS_LITERAL_IF([$1], [],
+ 	       [AC_FATAL([$0: requires literal arguments])])dnl
+ AC_CHECK_TYPE([$1], [], [], [$3])
+ AC_CACHE_CHECK([size of $1], AS_TR_SH([ac_cv_sizeof_$1]),
+-[if test "$AS_TR_SH([ac_cv_type_$1])" = yes; then
+-  # The cast to long int works around a bug in the HP C Compiler
+-  # version HP92453-01 B.11.11.23709.GP, which incorrectly rejects
+-  # declarations like `int a3[[(sizeof (unsigned char)) >= 0]];'.
+-  # This bug is HP SR number 8606223364.
+-  _AC_COMPUTE_INT([(long int) (sizeof (ac__type_sizeof_))],
+-		  [AS_TR_SH([ac_cv_sizeof_$1])],
+-		  [AC_INCLUDES_DEFAULT([$3])
+-		   typedef $1 ac__type_sizeof_;],
+-		  [AC_MSG_FAILURE([cannot compute sizeof ($1)], 77)])
++[
++if test "$AS_TR_SH([ac_cv_type_$1])" = yes; then
++AC_COMPILE_IFELSE([AC_LANG_PROGRAM([AC_INCLUDES_DEFAULT([$3])],
++		   [static const $1 x[[256]];])],
++		   [
++		     AS_TR_SH([ac_cv_sizeof_$1])=`$SIZE conftest.$ac_objext | tail -n 1 | $AWK '{print [$]3/256}'`
++		   ],
++		   [
++		     AS_TR_SH([ac_cv_sizeof_$1])=0
++		   ])
+ else
+   AS_TR_SH([ac_cv_sizeof_$1])=0
+-fi])dnl
++fi
++])dnl
+ AC_DEFINE_UNQUOTED(AS_TR_CPP(sizeof_$1), $AS_TR_SH([ac_cv_sizeof_$1]),
+ 		   [The size of `$1', as computed by sizeof.])
+ ])# AC_CHECK_SIZEOF

@@ -1,0 +1,12 @@
+diff -ur autoconf-2.60.orig/bin/autoreconf.in autoconf-2.60/bin/autoreconf.in
+--- autoconf-2.60.orig/bin/autoreconf.in	2006-06-05 14:17:36.000000000 +0200
++++ autoconf-2.60/bin/autoreconf.in	2006-10-10 01:29:29.000000000 +0200
+@@ -187,6 +187,7 @@
+   $autoconf   .= join (' --prepend-include=', '', @prepend_include);
+   $autoheader .= join (' --include=', '', @include);
+   $autoheader .= join (' --prepend-include=', '', @prepend_include);
++  $aclocal    .= join (' -I ', '', @include);
+ 
+   # --install and --symlink;
+   if ($install)
+Only in autoconf-2.60/bin: autoreconf.in.orig

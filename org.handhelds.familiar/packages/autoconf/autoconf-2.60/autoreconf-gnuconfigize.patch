@@ -1,0 +1,45 @@
+diff -ur autoconf-2.60.orig/bin/autoreconf.in autoconf-2.60/bin/autoreconf.in
+--- autoconf-2.60.orig/bin/autoreconf.in	2006-10-10 01:35:20.000000000 +0200
++++ autoconf-2.60/bin/autoreconf.in	2006-10-10 01:36:52.000000000 +0200
+@@ -58,7 +58,7 @@
+ $help = "Usage: $0 [OPTION] ... [DIRECTORY] ...
+ 
+ Run `autoconf' (and `autoheader', `aclocal', `automake', `autopoint'
+-(formerly `gettextize'), and `libtoolize' where appropriate)
++(formerly `gettextize'), `libtoolize', and `gnu-configize' where appropriate)
+ repeatedly to remake the GNU Build System files in specified
+ DIRECTORIES and their subdirectories (defaulting to `.').
+ 
+@@ -106,12 +106,13 @@
+ ";
+ 
+ # Lib files.
+-my $autoconf   = $ENV{'AUTOCONF'}   || '@bindir@/@autoconf-name@';
+-my $autoheader = $ENV{'AUTOHEADER'} || '@bindir@/@autoheader-name@';
+-my $automake   = $ENV{'AUTOMAKE'}   || 'automake';
+-my $aclocal    = $ENV{'ACLOCAL'}    || 'aclocal';
+-my $libtoolize = $ENV{'LIBTOOLIZE'} || 'libtoolize';
+-my $autopoint  = $ENV{'AUTOPOINT'}  || 'autopoint';
++my $autoconf      = $ENV{'AUTOCONF'}     || '@bindir@/@autoconf-name@';
++my $autoheader    = $ENV{'AUTOHEADER'}   || '@bindir@/@autoheader-name@';
++my $automake      = $ENV{'AUTOMAKE'}     || 'automake';
++my $aclocal       = $ENV{'ACLOCAL'}      || 'aclocal';
++my $libtoolize    = $ENV{'LIBTOOLIZE'}   || 'libtoolize';
++my $autopoint     = $ENV{'AUTOPOINT'}    || 'autopoint';
++my $gnuconfigize  = $ENV{'GNUCONFIGIZE'} || 'gnu-configize';
+ 
+ # --install -- as --add-missing in other tools.
+ my $install = 0;
+@@ -643,6 +644,10 @@
+       }
+     }
+ 
++  @ex = grep (/^gnu-configize$/, @exclude);
++  if ($#ex == -1) {
++    xsystem ("$gnuconfigize");
++  }
+ 
+   # -------------- #
+   # Running make.  #
+Only in autoconf-2.60.orig/bin: autoreconf.in.orig
+Only in autoconf-2.60/bin: autoreconf.in.rej
