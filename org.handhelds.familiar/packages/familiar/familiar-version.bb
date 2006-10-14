@@ -3,28 +3,33 @@ PACKAGE_ARCH = "all"
 def get_sanitized_version(s):
 
 	max_version_component = "99"
-	rc_separator = "-rc"
+	pre_separators = ["-rc", "-pre"]
 
-	if not rc_separator in s:
-		return s
+	ver = s
 
-	version = s.split(rc_separator)[0][1:]
-	vcomps = version.split(".")
-	vcomps.reverse()
-
-	vcomps_new = []
-	done = False
-	for i in vcomps:
-		if done:
-			vcomps_new.insert(0, i)
+	for sep in pre_separators:
+		if not sep in s:
 			continue
-		if int(i) < 1:
-			vcomps_new.insert(0, max_version_component)
-			continue
-		vcomps_new.insert(0, "%i" % (int(i) - 1))
-		done = True
 
-	return "v" + ".".join(vcomps_new) + "+" +  s.replace("-", "")
+		version = s.split(sep)[0][1:]
+		vcomps = version.split(".")
+		vcomps.reverse()
+
+		vcomps_new = []
+		done = False
+		for i in vcomps:
+			if done:
+				vcomps_new.insert(0, i)
+				continue
+			if int(i) < 1:
+				vcomps_new.insert(0, max_version_component)
+				continue
+			vcomps_new.insert(0, "%i" % (int(i) - 1))
+			done = True
+
+		ver = "v" + ".".join(vcomps_new) + "+" +  s.replace("-", "")
+	
+	return ver
 
 PV = "${@get_sanitized_version(bb.data.getVar('DISTRO_VERSION', d, 1))}"
 
