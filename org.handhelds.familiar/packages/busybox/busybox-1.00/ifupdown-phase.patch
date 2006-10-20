@@ -1,0 +1,58 @@
+--- busybox-1.00/networking/ifupdown.c.orig	2006-10-20 23:25:53.000000000 +0200
++++ busybox-1.00/networking/ifupdown.c	2006-10-20 23:29:07.000000000 +0200
+@@ -957,11 +957,11 @@
+ 	return result;
+ }
+ 
+-static void set_environ(struct interface_defn_t *iface, char *mode)
++static void set_environ(struct interface_defn_t *iface, char *mode, char *phase)
+ {
+ 	char **environend;
+ 	int i;
+-	const int n_env_entries = iface->n_options + 5;
++	const int n_env_entries = iface->n_options + 6;
+ 	char **ppch;
+ 
+ 	if (environ != NULL) {
+@@ -995,6 +995,8 @@
+ 	*environend = NULL;
+ 	*(environend++) = setlocalenv("%s=%s", "MODE", mode);
+ 	*environend = NULL;
++	*(environend++) = setlocalenv("%s=%s", "PHASE", phase);
++	*environend = NULL;
+ 	*(environend++) = setlocalenv("%s=%s", "PATH", "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+ 	*environend = NULL;
+ }
+@@ -1050,20 +1052,30 @@
+ static int iface_up(struct interface_defn_t *iface)
+ {
+ 	if (!iface->method->up(iface,check)) return -1;
+-	set_environ(iface, "start");
++
++	set_environ(iface, "start", "pre-up");
+ 	if (!execute_all(iface, doit, "pre-up")) return 0;
++	
+ 	if (!iface->method->up(iface, doit)) return 0;
++	
++	set_environ(iface, "start", "post-up");
+ 	if (!execute_all(iface, doit, "up")) return 0;
++	
+ 	return 1;
+ }
+ 
+ static int iface_down(struct interface_defn_t *iface)
+ {
+ 	if (!iface->method->down(iface,check)) return -1;
+-	set_environ(iface, "stop");
++	
++	set_environ(iface, "stop", "pre-down");
+ 	if (!execute_all(iface, doit, "down")) return 0;
++
+ 	if (!iface->method->down(iface, doit)) return 0;
++
++	set_environ(iface, "stop", "post-down");
+ 	if (!execute_all(iface, doit, "post-down")) return 0;
++
+ 	return 1;
+ }
+ 

@@ -10,7 +10,7 @@ HOMEPAGE = "http://www.busybox.net"
 LICENSE = "GPL"
 SECTION = "base"
 PRIORITY = "required"
-PR = "r36"
+PR = "r37"
 
 SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.gz \
            file://add-getkey-applet.patch;patch=1 \
@@ -29,6 +29,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.gz \
 	   file://dhcp-hostname.patch;patch=1 \
 	   file://gzip-spurious-const.patch;patch=1 \
 	   file://ifupdown-spurious-environ.patch;patch=1 \
+	   file://ifupdown-phase.patch;patch=1 \
 	   file://start-stop-daemon-oknodo-support.patch;patch=1 \
            file://defconfig \
            file://busybox-cron \
