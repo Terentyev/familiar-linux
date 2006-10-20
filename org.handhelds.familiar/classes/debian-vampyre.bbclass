@@ -14,6 +14,7 @@ DEBIAN_ARCHIVE ?= "main"
 DEBIAN_BASE_URI = "${DEBIAN_MIRROR}/${DEBIAN_ARCHIVE}/${@bb.data.getVar('PN', d, 1)[0]}/${PN}"
 SRC_URI = "${DEBIAN_BASE_URI}/${PN}_${DPV}.orig.tar.gz \
            ${DEBIAN_BASE_URI}/${PN}_${DPV}-${DPR}.diff.gz;patch=1 "
+FILESPATH = "${@base_set_filespath([ "${FILE_DIRNAME}/${PN}-${DPV}-${DPR}", "${FILE_DIRNAME}/${PN}-${DPV}", "${FILE_DIRNAME}/${PN}", "${FILE_DIRNAME}/files", "${FILE_DIRNAME}" ], d)}"
 
 do_install_append () {
 	mkdir -p ${D}${datadir}/doc/${PN}

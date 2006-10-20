@@ -1,0 +1,19 @@
+diff -ur wpa_supplicant-0.5.5.debian/debian/ifupdown.sh wpa_supplicant-0.5.5/debian/ifupdown.sh
+--- wpa_supplicant-0.5.5.debian/debian/ifupdown.sh	2006-10-20 21:22:56.000000000 +0200
++++ wpa_supplicant-0.5.5/debian/ifupdown.sh	2006-10-20 21:23:35.000000000 +0200
+@@ -62,13 +62,13 @@
+ 
+ # master function; determines if ifupdown.sh should do something or not
+ if [ -s "$IF_WPA_CONF" ]; then
+-	WPA_SUP_CONF_CTRL_DIR=$(sed --quiet \
++	WPA_SUP_CONF_CTRL_DIR=$(sed \
+ 		's/[[:space:]]*#.*//g;s/[[:space:]]\+.*$//g;s/^\(ctrl_interface\|DIR\)=\(.*\)/\2/p' "$IF_WPA_CONF")
+ 	if [ -n "$WPA_SUP_CONF_CTRL_DIR" ]; then
+ 		WPA_CTRL_DIR="$WPA_SUP_CONF_CTRL_DIR"
+ 	fi
+ 	WPA_SUP_CONF="-c $IF_WPA_CONF -C $WPA_CTRL_DIR"
+-elif set | grep --quiet "^IF_WPA"; then
++elif set | grep -q "^IF_WPA"; then
+ 	WPA_SUP_CONF="-C $WPA_CTRL_DIR"
+ else
+ 	exit 0

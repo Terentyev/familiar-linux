@@ -1,0 +1,21 @@
+diff -ur wpa_supplicant-0.5.5.debian/debian/functions.sh wpa_supplicant-0.5.5/debian/functions.sh
+--- wpa_supplicant-0.5.5.debian/debian/functions.sh	2006-10-20 20:21:16.000000000 +0200
++++ wpa_supplicant-0.5.5/debian/functions.sh	2006-10-20 20:23:55.000000000 +0200
+@@ -36,7 +36,7 @@
+ 
+ # verbosity variables
+ if [ -n "$IF_WPA_VERBOSITY" ] || [ "$VERBOSITY" = "1" ]; then
+-	TO_NULL="/dev/stdout"
++	TO_NULL="&1"
+ 	DAEMON_VERBOSITY="--verbose"
+ else
+ 	TO_NULL="/dev/null"
+@@ -86,7 +86,7 @@
+ 			;;
+ 		"stderr")
+ 			shift
+-			echo "$WPA_SUP_PNAME: $@" >/dev/stderr
++			echo "$WPA_SUP_PNAME: $@" >&2
+ 			;;
+ 		*)
+ 			;;

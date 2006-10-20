@@ -1,0 +1,11 @@
+--- wpa_supplicant-0.5.5/tls_gnutls.c	2006-06-25 03:05:07.000000000 +0200
++++ wpa_supplicant-0.5.5.new/tls_gnutls.c	2006-10-10 02:22:56.000000000 +0200
+@@ -1030,7 +1030,7 @@
+ 				     size_t *out_len)
+ {
+ 	return tls_connection_handshake(ssl_ctx, conn, in_data, in_len,
+-					out_len);
++					out_len, NULL, NULL);
+ }
+ 
+ 

@@ -1,0 +1,43 @@
+diff -ur wpa_supplicant-0.5.5.debian/debian/wpasupplicant.wpa-ifupdown.init wpa_supplicant-0.5.5/debian/wpasupplicant.wpa-ifupdown.init
+--- wpa_supplicant-0.5.5.debian/debian/wpasupplicant.wpa-ifupdown.init	2006-10-20 22:10:27.000000000 +0200
++++ wpa_supplicant-0.5.5/debian/wpasupplicant.wpa-ifupdown.init	2006-10-20 22:12:00.000000000 +0200
+@@ -22,20 +22,18 @@
+ 
+ test -x /sbin/ifdown || exit 0
+ 
+-. /lib/lsb/init-functions
+-
+ stop_wpa_action () {
+ 	test -x /sbin/wpa_action || return
+ 	unset IFACES
+ 	IFACES=$(find /var/run -maxdepth 1 -type f -name 'wpa_action.*.pid' -printf '%P\n' | cut -d'.' -f2)
+ 	if test -n "$IFACES"; then
+-		log_daemon_msg "Stopping wpa_action roaming interfaces"
++		echo -n "Stopping wpa_action roaming interfaces:"
+ 		for iface in $IFACES; do
+-			log_progress_msg "$iface"
++			echo -n " $iface"
+ 			# wpa_action executes /sbin/ifdown
+ 			wpa_action "$iface" stop >/dev/null 2>&1
+ 		done
+-		log_end_msg 0
++		echo '.'
+ 	fi
+ }
+ 
+@@ -43,12 +41,12 @@
+ 	unset IFACES
+ 	IFACES=$(find /var/run -maxdepth 1 -type f -name 'wpa_supplicant.*.pid' -printf '%P\n' | cut -d'.' -f2)
+ 	if test -n "$IFACES"; then
+-		log_daemon_msg "Stopping wpa_supplicant interfaces"
++		echo -n "Stopping wpa_supplicant interfaces:"
+ 		for iface in $IFACES; do
+-			log_progress_msg "$iface"
++			echo -n " $iface"
+ 			ifdown $iface >/dev/null 2>&1
+ 		done
+-		log_end_msg 0
++		echo '.'
+ 	fi
+ }
+ 
