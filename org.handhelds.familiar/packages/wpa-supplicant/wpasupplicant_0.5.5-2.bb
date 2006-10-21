@@ -6,9 +6,10 @@ DESCRIPTION = "Client support for WPA and WPA2 (IEEE 802.11i)"
 SECTION = "net"
 LICENSE = "GPL"
 HOMEPAGE = "http://hostap.epitest.fi/wpa_supplicant/"
+PR = "r1"
 
 DEPENDS = "gnutls"
-RDEPENDS_{PN} = "busybox (>= 1.00-r37)"
+RDEPENDS_${PN} = "busybox (>= 1.00-r37)"
 
 RCONFLICTS_${PN} = "wpa-supplicant wpa-supplicant-nossl"
 RPROVIDES_${PN} = "wpa-supplicant wpa-supplicant-nossl"
