@@ -6,6 +6,8 @@ MAINTAINER = "Michael 'Mickey' Lauer <mickey@Vanille.de>"
 LICENSE = "GPL"
 PR = "r4"
 
+PARALLEL_INSTALL_REPLACE_VERSIONS = "2.4.19-rmk6-pxa1-hh37 2.4.19-rmk6-pxa1-hh41.1"
+
 SRC_URI = "http://ozlabs.org/people/dgibson/dldwd/orinoco-${PV}.tar.gz; \
            file://crosscompile.patch;patch=1 \
            file://monitor-${PV}.patch;patch=1 \

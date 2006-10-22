@@ -7,6 +7,8 @@ DEPENDS = "virtual/kernel"
 LICENSE = "BSD"
 PR = "r1"
 
+PARALLEL_INSTALL_REPLACE_VERSIONS = "2.4.19-rmk6-pxa1-hh37 2.4.19-rmk6-pxa1-hh41.1"
+
 TARFILE = "wl_lkm_${PV}_release.tar.gz"
 
 

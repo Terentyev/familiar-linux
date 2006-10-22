@@ -5,6 +5,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/atmelwlandriver/atmelwlandriver-${PV}.tar.bz2 \
 S = "${WORKDIR}/atmelwlandriver"
 LICENSE = "GPL"
 
+PARALLEL_INSTALL_REPLACE_VERSIONS = "2.4.19-rmk6-pxa1-hh37 2.4.19-rmk6-pxa1-hh41.1"
+
 inherit module
 SECTION = "base"
 

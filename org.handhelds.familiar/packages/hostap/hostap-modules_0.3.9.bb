@@ -1,9 +1,10 @@
 DESCRIPTION = "A driver for wireless LAN cards based on Intersil's Prism2/2.5/3 chipset"
 SECTION = "kernel/modules"
 PRIORITY = "optional"
-MAINTAINER = "Michael 'Mickey' Lauer <mickey@Vanille.de>"
 LICENSE = "GPL"
-PR = "r9"
+PR = "r10"
+
+PARALLEL_INSTALL_REPLACE_VERSIONS = "2.4.19-rmk6-pxa1-hh37 2.4.19-rmk6-pxa1-hh41.1"
 
 SRC_URI = "http://hostap.epitest.fi/releases/hostap-driver-${PV}.tar.gz \
            file://hostap_cs.conf \
@@ -14,6 +15,7 @@ SRC_URI = "http://hostap.epitest.fi/releases/hostap-driver-${PV}.tar.gz \
 	   file://hostap_cardid.patch;patch=1"
 SRC_URI_append_mtx-1 = " file://mtx_compat.diff;patch=1;pnum=0 \
 	file://mtx_hostap_deferred_irq.diff;patch=1;pnum=0"
+SRC_URI_append_h3600 = " file://ipaq_compat.patch;patch=1 "
 SRC_URI_append_h3900 = " file://ipaq_compat.patch;patch=1 "
 
 S = "${WORKDIR}/hostap-driver-${PV}"

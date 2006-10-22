@@ -1,5 +1,8 @@
 SECTION = "base"
 LICENSE = "GPL"
+
+PARALLEL_INSTALL_REPLACE_VERSIONS = "2.4.19-rmk6-pxa1-hh37 2.4.19-rmk6-pxa1-hh41.1"
+
 SRC_URI = "cvs://anonymous@cvs.berlios.de/cvsroot/at76c503a;module=at76c503a;tag=version_${@bb.data.getVar('PV', d, 1).replace('.', '_')} \
 	   file://makefile.cc.patch;patch=1 \
 	   file://ipaq-compat.patch;patch=1"
