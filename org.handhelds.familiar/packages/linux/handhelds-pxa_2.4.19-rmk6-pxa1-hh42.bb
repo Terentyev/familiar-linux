@@ -2,11 +2,12 @@ SECTION = "kernel"
 DESCRIPTION = "handhelds.org Linux kernel for PXA25x based devices."
 MAINTAINER = "Phil Blundell <pb@handhelds.org>"
 LICENSE = "GPL"
-#PR = "r1"
 
 
 KERNEL_CCSUFFIX = "-3.3.4"
 COMPATIBLE_HOST = "arm.*-linux"
+
+PARALLEL_INSTALL_REPLACE_VERSIONS = "2.4.19-rmk6-pxa1-hh37"
 
 SRC_URI = "${HANDHELDS_CVS};module=linux/kernel;tag=${@'K' + bb.data.getVar('PV',d,1).replace('.', '-')} \
 	   file://defconfig-${PACKAGE_ARCH} \
@@ -17,6 +18,8 @@ SRC_URI = "${HANDHELDS_CVS};module=linux/kernel;tag=${@'K' + bb.data.getVar('PV'
 	   file://linux-2.4-cpufreq.patch;patch=1"
 
 S = "${WORKDIR}/kernel"
+
+KERNEL_PRESERVE_HH_MINOR_VER = "1"
 
 inherit kernel update-rc.d
 
