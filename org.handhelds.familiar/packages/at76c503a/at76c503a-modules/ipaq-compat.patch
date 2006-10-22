@@ -1,0 +1,50 @@
+Index: at76c503-fw_skel.c
+===================================================================
+RCS file: /cvsroot/at76c503a/at76c503a/Attic/at76c503-fw_skel.c,v
+retrieving revision 1.8
+diff -u -r1.8 at76c503-fw_skel.c
+--- at76c503a/at76c503-fw_skel.c	8 Mar 2005 00:07:55 -0000	1.8
++++ at76c503a/at76c503-fw_skel.c	22 Oct 2006 14:21:02 -0000
+@@ -26,7 +26,7 @@
+  *
+  */
+ 
+-#ifdef CONFIG_IPAQ_HANDHELD
++#ifdef CONFIG_IPAQ_H5400
+ #include <asm/mach-types.h>
+ #include <asm/arch/ipaq.h>
+ #include <asm/arch-pxa/h5400-asic.h>
+@@ -182,7 +182,7 @@
+ 
+ 	info(DRIVER_DESC " " DRIVER_VERSION " loading");
+ 
+-#ifdef CONFIG_IPAQ_HANDHELD
++#ifdef CONFIG_IPAQ_H5400
+ 	if (machine_is_h5400()) {
+ 		/* turn WLAN power on */
+ 		/* both needed? */
+@@ -212,7 +212,7 @@
+ 		release_firmware(fw);
+ #endif
+ 
+-#ifdef CONFIG_IPAQ_HANDHELD
++#ifdef CONFIG_IPAQ_H5400
+ 	if (machine_is_h5400()) {
+ 		/* turn WLAN power off */
+ 		SET_H5400_ASIC_GPIO (GPB, RF_POWER_ON, 0);
+Index: at76c503.h
+===================================================================
+RCS file: /cvsroot/at76c503a/at76c503a/at76c503.h,v
+retrieving revision 1.33.2.1
+diff -u -r1.33.2.1 at76c503.h
+--- at76c503a/at76c503.h	17 Jul 2006 21:46:16 -0000	1.33.2.1
++++ at76c503a/at76c503.h	22 Oct 2006 14:21:03 -0000
+@@ -51,7 +51,7 @@
+ #define DRIVER_VERSION "v0.12.0" VERSION_APPEND
+ 
+ /* Workqueue / task queue backwards compatibility stuff */
+-#if LINUX_VERSION_CODE > KERNEL_VERSION(2,5,41)
++#if LINUX_VERSION_CODE > KERNEL_VERSION(2,5,41) || defined(CONFIG_IPAQ_HANDHELD)
+ #include <linux/workqueue.h>
+ #else
+ #include <linux/tqueue.h>

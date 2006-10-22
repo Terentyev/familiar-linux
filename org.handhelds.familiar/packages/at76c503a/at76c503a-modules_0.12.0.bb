@@ -1,9 +1,9 @@
 SECTION = "base"
 LICENSE = "GPL"
-SRC_URI = "cvs://anonymous@cvs.berlios.de/cvsroot/at76c503a;module=at76c503a;tag=version_0_12_0 \
-	   file://makefile.cc.patch;patch=1"
+SRC_URI = "cvs://anonymous@cvs.berlios.de/cvsroot/at76c503a;module=at76c503a;tag=version_${@bb.data.getVar('PV', d, 1).replace('.', '_')} \
+	   file://makefile.cc.patch;patch=1 \
+	   file://ipaq-compat.patch;patch=1"
 S = "${WORKDIR}/at76c503a"
-PR = "r0"
 
 inherit module
 
