@@ -1,0 +1,12 @@
+--- libgtk-java-2.6.2.orig/gtk2-java.pc.in	2005-10-20 23:33:20.000000000 +0200
++++ libgtk-java-2.6.2/gtk2-java.pc.in	2005-10-20 23:35:58.000000000 +0200
+@@ -10,6 +10,6 @@
+ api_version=@gtkapiversion@
+ classpath=@INSTALLED_CLASSPATH@
+ macro_dir=@INSTALLED_MACRO_DIR@
+-jnilibs=-L@libdir@ -lgtkjni
+-Libs: -L@libdir@ -lgtkjava
+-Cflags: -I@includedir@/libgtk-java
++jnilibs=-L${libdir} -lgtkjni
++Libs: -L${libdir} -lgtkjava
++Cflags: -I${includedir}/libgtk-java
