@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# javap OE wrapper script
+# Copyright (C) 2006, Rene Wagner. All Rights Reserved
+# Released under the MIT license (see org.handhelds.familiar/COPYING.MIT)
+
+if [ -z ${JAVAP} ]; then
+	echo 'Error: $JAVAP not set.'
+	exit 1
+fi
+
+exec ${JAVAP} $@

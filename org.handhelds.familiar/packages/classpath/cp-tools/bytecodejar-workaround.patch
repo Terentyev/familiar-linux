@@ -1,0 +1,38 @@
+--- cp-tools.orig/configure.ac	2005-10-01 19:26:32.000000000 +0200
++++ cp-tools/configure.ac	2005-10-01 19:34:12.000000000 +0200
+@@ -75,8 +75,21 @@
+     with_gnubytecode=yes
+   ]
+ )
++AC_ARG_WITH([gnu-bytecode-jar],
++  [AS_HELP_STRING(--with-gnu-bytecode-jar,where to look for the gnu.bytecode.jar [[default=search]])],
++  [
++    if test "x${withval}" != xno; then
++      with_gnubytecodejar=${withval}
++    else
++      with_gnubytecodejar=no
++    fi
++  ],
++  [
++    with_gnubytecodejar=no
++  ]
++)
+ AM_CONDITIONAL(USE_GNUBYTECODE, test "x${with_gnubytecode}" = xyes)
+-if test "x${with_gnubytecode}" = xyes
++if test "x${with_gnubytecode}" = xyes -a "x${with_gnubytecodejar}" = xno
+ then 
+   for path in /usr /usr/local; do
+     AC_CHECK_FILE([$path/share/java/bytecode.jar],
+@@ -88,6 +101,12 @@
+   test -d src || mkdir src
+   test -d src/jars || mkdir src/jars
+   cp -f ${BYTECODE_JAR} src/jars/
++else
++  BYTECODE_JAR=$with_gnubytecodejar
++  export BYTECODE_JAR
++  test -d src || mkdir src
++  test -d src/jars || mkdir src/jars
++  cp -f ${BYTECODE_JAR} src/jars/
+ fi
+ 
+ dnl
