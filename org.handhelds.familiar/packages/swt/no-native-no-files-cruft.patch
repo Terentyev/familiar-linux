@@ -1,0 +1,65 @@
+--- swt-gtk-3.1.orig.orig/Makefile	2005-10-02 19:17:47.000000000 +0200
++++ swt-gtk-3.1.orig/Makefile	2005-10-02 19:27:30.000000000 +0200
+@@ -1,4 +1,4 @@
+-TARGETS=swt.jar libswt.so libswt-pi.so libswt-mozilla.so
++TARGETS=swt.jar
+ CLEANFILES=java-stamp *.jar *.o *.so.* `find org -name *.class`
+ 
+ RELEASE=3.1
+@@ -7,22 +7,12 @@
+ AGE=1
+ SOVERSION=$(CURRENT).$(REVISION).$(AGE)
+ 
+-GCJ=gcj
+-GCJLD=gcj
+ JAR=fastjar
+ JAVAC=jikes-classpath -nowarn
+-LDCONFIG=/sbin/ldconfig
+ LN_S=ln -s
+ RM=rm -f
+ 
+-GCJFLAGS=-fPIC -fjni
+-GCJLDFLAGS=-shared
+-
+-COMPILE=$(GCJ) $(GCJFLAGS)
+-LINK=$(GCJLD) $(GCJLDFLAGS) -o $@
+-
+ all: $(TARGETS)
+-	$(LDCONFIG) -n .
+ 
+ clean distclean:
+ 	$(RM) $(CLEANFILES) $(TARGETS)
+@@ -31,33 +21,11 @@
+ 
+ java-stamp:
+ 	for i in `find org -name *.java`; do \
+-		echo "  GCJ     $$i"; \
+-		$(COMPILE) -c $$i; \
+ 		echo "  JAVAC   $$i"; \
+ 		$(JAVAC) $$i; \
+ 	done
+ 	touch $@
+ 
+-swt.files:
+-	find org -type f \
+-		-not -path org/eclipse/swt/internal\* \
+-		-not -path org/eclipse/swt/browser\* | sort > $@
+-
+-swt-mozilla.files:
+-	find org/eclipse/swt/browser org/eclipse/swt/internal/mozilla \
+-		-type f | sort > $@
+-
+-swt-pi.files:
+-	find org/eclipse/swt/internal -type f \
+-		-not -path org/eclipse/swt/internal/mozilla\* | sort > $@
+-
+-lib%.so.$(SOVERSION): %.files java-stamp
+-	$(LINK) -Wl,-soname=lib$*.so.$(CURRENT) \
+-		`sed -nre '/\.java$$/{s~.*/(.*)\.java$$~\1.o~;p}' $<`
+-
+-%.so: %.so.$(SOVERSION)
+-	$(LN_S) -f $< $@
+-
+ %-gtk-$(RELEASE).jar: java-stamp
+ 	$(JAR) cf $@ `find . -name *.class`
+ 
