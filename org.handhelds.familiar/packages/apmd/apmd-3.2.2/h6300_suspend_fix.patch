@@ -1,0 +1,107 @@
+diff -Naur apmd-3.2.2.old/apmd.c apmd-3.2.2.orig/apmd.c
+--- apmd-3.2.2.old/apmd.c	2006-11-05 01:09:14.000000000 +0200
++++ apmd-3.2.2.orig/apmd.c	2006-11-05 01:52:32.000000000 +0200
+@@ -537,7 +537,7 @@
+ 		/* Do it fast */
+ 		last_marked_time = time(0);
+ 		last_marked_content = apmi->battery_percentage;
+-		ioctl(apmd_fd, APM_IOC_SUSPEND, NULL);
++		apm_suspend(apmd_fd);
+ 		break;
+ 	case APMD_START:
+ 		/* Initialise */
+diff -Naur apmd-3.2.2.old/apmlib.c apmd-3.2.2.orig/apmlib.c
+--- apmd-3.2.2.old/apmlib.c	2006-11-05 01:09:14.000000000 +0200
++++ apmd-3.2.2.orig/apmlib.c	2006-11-05 01:50:58.000000000 +0200
+@@ -35,6 +35,66 @@
+ 
+ #define BACKWARD_COMPAT 1
+ 
++#define SUSPEND_METHOD__NOT_DEFINED		-1
++#define SUSPEND_METHOD__APM_IOCTL		0
++#define SUSPEND_METHOD__ECHO_SYS_POWER_STATE	1
++
++static int suspend_method_to_use	= SUSPEND_METHOD__NOT_DEFINED;
++
++/*
++ * Check from the some of the search strings is available in 
++ * /proc/cpuinfo (harware type for example)
++ * 
++ * Return 1 if available, 0 if not found
++ */
++int is_key_in_proc_cpuinfo(char *devlist[])
++{
++	FILE*	curFd;
++	char	curBuffer[2048];
++	size_t	curBCount;
++	char* 	curFound;
++	int	retVal;
++
++	// let's assume by default that string does not found
++	retVal	= 0;
++	/* read to /proc/cpuinfo to buffer */
++	curFd 		= fopen("/proc/cpuinfo", "r");
++	curBCount	= fread(curBuffer, 1, sizeof(curBuffer), curFd);
++	fclose(curFd);
++	if (curBCount > 0) {
++		/* make sure text in buffer is terminated */
++		curBuffer[curBCount] = '\0';
++		while((*devlist != NULL)) {
++			curFound	= strstr(curBuffer, *devlist);
++			if (curFound != NULL) {
++				// matched to one of the search keywords
++				retVal	= 1;
++  				break;
++			}
++			*devlist++;
++		}
++	}
++	return retVal;
++}
++
++int check_suspend_method(void)
++{
++	if (suspend_method_to_use == SUSPEND_METHOD__NOT_DEFINED)
++	{
++		char *curDevArr[]	= {"HP iPAQ h6300", 0};
++
++		// not checked yet, check now
++		if (is_key_in_proc_cpuinfo(curDevArr)) {
++			suspend_method_to_use	= SUSPEND_METHOD__ECHO_SYS_POWER_STATE;
++			printf("Using 'echo mem > sys/power/state' to suspend.\n");
++		}
++		else {
++			suspend_method_to_use	= SUSPEND_METHOD__APM_IOCTL;
++			printf("Using apm ioctl to suspend\n");
++		}
++	}
++	return suspend_method_to_use;
++}
+ 
+ /*
+  * Return a string describing an APM event. From p. 16 of the Intel/Microsoft
+@@ -388,7 +448,11 @@
+ int apm_suspend(int fd)
+ {
+     sync();
+-    return ioctl(fd, APM_IOC_SUSPEND, NULL) < 0 ? -errno : 0;
++    if (check_suspend_method() == SUSPEND_METHOD__ECHO_SYS_POWER_STATE)
++	return system("echo mem > /sys/power/state");
++    else 
++	return ioctl(fd, APM_IOC_SUSPEND, NULL) < 0 ? -errno : 0;
++	
+ }
+ 
+ 
+@@ -398,7 +462,10 @@
+ int apm_standby(int fd)
+ {
+     sync();
+-    return ioctl(fd, APM_IOC_STANDBY, NULL);
++    if (check_suspend_method() == SUSPEND_METHOD__ECHO_SYS_POWER_STATE)
++	return system("echo mem > /sys/power/state");
++    else
++	return ioctl(fd, APM_IOC_STANDBY, NULL);
+ }
+ 
+ 

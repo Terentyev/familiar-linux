@@ -8,6 +8,7 @@ PR = "r10"
 SRC_URI = "${DEBIAN_MIRROR}/main/a/apmd/apmd_${PV}.orig.tar.gz; \
            file://debian.patch;patch=1 \
            file://workaround.patch;patch=1 \
+	   file://h6300_suspend_fix.patch;patch=1 \
            file://init \
            file://default \
            file://apmd_proxy \
