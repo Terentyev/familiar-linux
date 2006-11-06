@@ -1,0 +1,97 @@
+diff -Naur ppp_gprs_old/etc/ppp/chap-secrets ppp_gprs/etc/ppp/chap-secrets
+--- ppp_gprs_old/etc/ppp/chap-secrets	1970-01-01 02:00:00.000000000 +0200
++++ ppp_gprs/etc/ppp/chap-secrets	2006-10-20 15:08:59.000000000 +0300
+@@ -0,0 +1,2 @@
++# Secrets for authentication using CHAP
++# client	server	secret			IP addresses
+diff -Naur ppp_gprs_old/etc/ppp/chatscripts/gprs-connect-chat ppp_gprs/etc/ppp/chatscripts/gprs-connect-chat
+--- ppp_gprs_old/etc/ppp/chatscripts/gprs-connect-chat	1970-01-01 02:00:00.000000000 +0200
++++ ppp_gprs/etc/ppp/chatscripts/gprs-connect-chat	2006-10-20 15:08:22.000000000 +0300
+@@ -0,0 +1,37 @@
++# Boilerplate
++#
++        ABORT           'BUSY'
++        ABORT           'NO ANSWER'
++        ABORT           'NO CARRIER'
++        ABORT           'NO DIALTONE'
++        ABORT           '\nRINGING\r\n\r\nRINGING\r'
++        SAY             "GPRS modem init: press <ctrl>-C to disconnect"
++
++# Wake up the modem
++#
++        TIMEOUT         5
++        ''              'AT'
++        OK-ATQ0V1&C1-OK 'ATE1'
++        ABORT           'ERROR'
++        TIMEOUT         12
++
++# Reset to the factory defaults
++# Also, use '+CME ERROR' codes for ME errors, 'ERROR' for syntax errors
++#
++        OK              'AT&F'
++        OK              'AT+CGDCONT=1,"IP","Your-GPRS-APN","0.0.0.0",0,0'
++        SAY             "\n + defining PDP context"
++
++# Attach to the GPRS service.  Strictly, we don't need this step,
++# as AT+CGDATA will do it for us, but doing it explicitly makes it
++# a little easier to debug.
++#
++        TIMEOUT         45
++        OK              'AT+CGATT=1'
++        SAY             "\n + attaching to GPRS"
++
++# Enter data state
++        OK              'ATD*99#'
++        SAY             "\n + requesting data connection"
++        CONNECT         ''
++        SAY             "\n + connected"
+diff -Naur ppp_gprs_old/etc/ppp/chatscripts/gprs-disconnect-chat ppp_gprs/etc/ppp/chatscripts/gprs-disconnect-chat
+--- ppp_gprs_old/etc/ppp/chatscripts/gprs-disconnect-chat	1970-01-01 02:00:00.000000000 +0200
++++ ppp_gprs/etc/ppp/chatscripts/gprs-disconnect-chat	2006-10-20 15:08:22.000000000 +0300
+@@ -0,0 +1,10 @@
++# Boilerplate
++#
++        ABORT           BUSY
++        ABORT           ERROR
++        ABORT           'NO DIALTONE'
++        TIMEOUT         30
++
++# Get some attention
++        ''              '+++\c'
++        SAY             " + sending break"
+diff -Naur ppp_gprs_old/etc/ppp/gprs-options ppp_gprs/etc/ppp/gprs-options
+--- ppp_gprs_old/etc/ppp/gprs-options	1970-01-01 02:00:00.000000000 +0200
++++ ppp_gprs/etc/ppp/gprs-options	2006-10-24 02:18:51.000000000 +0300
+@@ -0,0 +1,13 @@
++defaultroute            
++nodetach                # Comment out to run in the background
++mtu 1400
++crtscts
++noipdefault
++ipcp-accept-local
++ipcp-accept-remote
++novj
++novjccomp
++debug                   # Comment out for no debugging info
++lock
++replacedefaultroute     # update routing table information
++usepeerdns              # find out and update the nameservers
+diff -Naur ppp_gprs_old/etc/ppp/peers/gprs ppp_gprs/etc/ppp/peers/gprs
+--- ppp_gprs_old/etc/ppp/peers/gprs	1970-01-01 02:00:00.000000000 +0200
++++ ppp_gprs/etc/ppp/peers/gprs	2006-10-20 15:07:31.000000000 +0300
+@@ -0,0 +1,15 @@
++#name Your-GPRS-Username # If you dont have a username and password, comment this out
++noauth	# If you commented out the line above, uncomment this
++/dev/ttyS1
++
++115200                  # Serial port line speed and options
++
++asyncmap 20A0000
++escape FF
++
++# Generic GPRS options
++file /etc/ppp/gprs-options
++
++# Chat scripts
++connect "/usr/sbin/chat -f /etc/ppp/chatscripts/gprs-connect-chat"
++disconnect "/usr/sbin/chat -f /etc/ppp/chatscripts/gprs-disconnect-chat"
