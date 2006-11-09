@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# javah OE wrapper script
+# Copyright (C) 2006, Rene Wagner. All Rights Reserved
+# Released under the MIT license (see org.handhelds.familiar/COPYING.MIT)
+
+if [ -z ${JAVAH} ]; then
+	echo 'Error: $JAVAH not set.'
+	exit 1
+fi
+
+exec ${JAVAH} $@

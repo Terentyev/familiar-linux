@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# javac OE wrapper script
+# Copyright (C) 2006, Rene Wagner. All Rights Reserved
+# Released under the MIT license (see org.handhelds.familiar/COPYING.MIT)
+
+if [ -z ${JAVAC} ]; then
+	echo 'Error: $JAVAC not set.'
+	exit 1
+fi
+
+exec ${JAVAC} $@

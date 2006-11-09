@@ -1,0 +1,11 @@
+--- libgtk-java-2.6.2/src/jni/org_gnu_gtk_TextBuffer.c.orig	2005-09-30 22:50:27.000000000 +0200
++++ libgtk-java-2.6.2/src/jni/org_gnu_gtk_TextBuffer.c	2005-09-30 23:55:30.000000000 +0200
+@@ -120,7 +120,7 @@
+     const char *utf = (*env)->GetStringUTFChars(env, text, NULL);
+     jint len = (*env)->GetStringUTFLength(env, text);
+     gtk_text_buffer_insert_at_cursor (buffer_g, 
+-                                      (gchar*)utf, (gint32)len);
++                                      (gchar*)utf, (gint32)len - 1);
+     (*env)->ReleaseStringUTFChars(env, text, utf);
+ }
+ 

@@ -1,0 +1,15 @@
+--- cp-tools/Makefile.am.orig	2005-10-01 20:34:45.000000000 +0200
++++ cp-tools/Makefile.am	2005-10-01 20:36:28.000000000 +0200
+@@ -187,9 +187,9 @@
+ 	cp $(srcdir)/bin/serialver $(distdir)/bin/
+ 
+ install-data-hook:
+-	$(INSTALL) -d $(datadir)/java
+-	$(INSTALL) --mode 644 $(data_JARS) $(datadir)/java
+-	$(LN_S) -f $(datadir)/java/cptools-$(VERSION).jar $(datadir)/java/cptools.jar
++	$(INSTALL) -d $(DESTDIR)$(datadir)/java
++	$(INSTALL) --mode 644 $(data_JARS) $(DESTDIR)$(datadir)/java
++	$(LN_S) -f $(DESTDIR)$(datadir)/java/cptools-$(VERSION).jar $(DESTDIR)$(datadir)/java/cptools.jar
+ 
+ test: tests/%.class $(srcdir)/src/test/%.java
+ 	$(JAVAC) -g -d tests $<
