@@ -10,6 +10,7 @@ RDEPENDS = "bluez-utils-dbus blueprobe"
 GPE_TARBALL_SUFFIX= "bz2"
 inherit gpe autotools
 
-SRC_URI += "file://fix-resume-script-name.patch;patch=1"
+SRC_URI += "file://fix-resume-script-name.patch;patch=1 \
+	file://include-sdp_lib.patch;patch=1"
 
 FILES_${PN} += '${datadir}/bluez-pin'
