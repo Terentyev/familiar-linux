@@ -1,0 +1,87 @@
+diff -Naur librsvg-2.6.5_old/doc/sgml/rsvg-file-util.sgml librsvg-2.6.5/doc/sgml/rsvg-file-util.sgml
+--- librsvg-2.6.5_old/doc/sgml/rsvg-file-util.sgml	2006-11-10 17:30:02.000000000 +0200
++++ librsvg-2.6.5/doc/sgml/rsvg-file-util.sgml	2006-11-09 19:16:35.000000000 +0200
+@@ -238,7 +238,7 @@
+ </simpara></listitem></varlistentry>
+ </variablelist></refsect2>
+ <refsect2>
+-<title><anchor id="rsvg-pixbuf-from-file-ex" role="function" condition="since:2.4">rsvg_pixbuf_from_file_ex ()</title>
++<title><anchor id="rsvg-pixbuf-from-file-ex" role="function">rsvg_pixbuf_from_file_ex ()</title>
+ <indexterm role="2.4"><primary>rsvg_pixbuf_from_file_ex</primary></indexterm><programlisting><link linkend="GdkPixbuf">GdkPixbuf</link>*  rsvg_pixbuf_from_file_ex        (<link linkend="RsvgHandle">RsvgHandle</link> *handle,
+                                              const <link linkend="gchar">gchar</link> *file_name,
+                                              <link linkend="GError">GError</link> **error);</programlisting>
+@@ -265,7 +265,7 @@
+ </variablelist><para>Since  2.4
+ </para></refsect2>
+ <refsect2>
+-<title><anchor id="rsvg-pixbuf-from-file-at-zoom-ex" role="function" condition="since:2.4">rsvg_pixbuf_from_file_at_zoom_ex ()</title>
++<title><anchor id="rsvg-pixbuf-from-file-at-zoom-ex" role="function">rsvg_pixbuf_from_file_at_zoom_ex ()</title>
+ <indexterm role="2.4"><primary>rsvg_pixbuf_from_file_at_zoom_ex</primary></indexterm><programlisting><link linkend="GdkPixbuf">GdkPixbuf</link>*  rsvg_pixbuf_from_file_at_zoom_ex
+                                             (<link linkend="RsvgHandle">RsvgHandle</link> *handle,
+                                              const <link linkend="gchar">gchar</link> *file_name,
+@@ -302,7 +302,7 @@
+ </variablelist><para>Since  2.4
+ </para></refsect2>
+ <refsect2>
+-<title><anchor id="rsvg-pixbuf-from-file-at-size-ex" role="function" condition="since:2.4">rsvg_pixbuf_from_file_at_size_ex ()</title>
++<title><anchor id="rsvg-pixbuf-from-file-at-size-ex" role="function">rsvg_pixbuf_from_file_at_size_ex ()</title>
+ <indexterm role="2.4"><primary>rsvg_pixbuf_from_file_at_size_ex</primary></indexterm><programlisting><link linkend="GdkPixbuf">GdkPixbuf</link>*  rsvg_pixbuf_from_file_at_size_ex
+                                             (<link linkend="RsvgHandle">RsvgHandle</link> *handle,
+                                              const <link linkend="gchar">gchar</link> *file_name,
+@@ -340,7 +340,7 @@
+ </variablelist><para>Since  2.4
+ </para></refsect2>
+ <refsect2>
+-<title><anchor id="rsvg-pixbuf-from-file-at-max-size-ex" role="function" condition="since:2.4">rsvg_pixbuf_from_file_at_max_size_ex ()</title>
++<title><anchor id="rsvg-pixbuf-from-file-at-max-size-ex" role="function">rsvg_pixbuf_from_file_at_max_size_ex ()</title>
+ <indexterm role="2.4"><primary>rsvg_pixbuf_from_file_at_max_size_ex</primary></indexterm><programlisting><link linkend="GdkPixbuf">GdkPixbuf</link>*  rsvg_pixbuf_from_file_at_max_size_ex
+                                             (<link linkend="RsvgHandle">RsvgHandle</link> *handle,
+                                              const <link linkend="gchar">gchar</link> *file_name,
+@@ -377,7 +377,7 @@
+ </variablelist><para>Since  2.4
+ </para></refsect2>
+ <refsect2>
+-<title><anchor id="rsvg-pixbuf-from-file-at-zoom-with-max-ex" role="function" condition="since:2.4">rsvg_pixbuf_from_file_at_zoom_with_max_ex ()</title>
++<title><anchor id="rsvg-pixbuf-from-file-at-zoom-with-max-ex" role="function">rsvg_pixbuf_from_file_at_zoom_with_max_ex ()</title>
+ <indexterm role="2.4"><primary>rsvg_pixbuf_from_file_at_zoom_with_max_ex</primary></indexterm><programlisting><link linkend="GdkPixbuf">GdkPixbuf</link>*  rsvg_pixbuf_from_file_at_zoom_with_max_ex
+                                             (<link linkend="RsvgHandle">RsvgHandle</link> *handle,
+                                              const <link linkend="gchar">gchar</link> *file_name,
+diff -Naur librsvg-2.6.5_old/doc/sgml/rsvg.sgml librsvg-2.6.5/doc/sgml/rsvg.sgml
+--- librsvg-2.6.5_old/doc/sgml/rsvg.sgml	2006-11-10 17:30:17.000000000 +0200
++++ librsvg-2.6.5/doc/sgml/rsvg.sgml	2006-11-09 19:15:24.000000000 +0200
+@@ -95,7 +95,7 @@
+ </simpara></listitem></varlistentry>
+ </variablelist></refsect2>
+ <refsect2>
+-<title><anchor id="rsvg-set-default-dpi" role="function" condition="since:2.2">rsvg_set_default_dpi ()</title>
++<title><anchor id="rsvg-set-default-dpi" role="function">rsvg_set_default_dpi ()</title>
+ <indexterm role="2.2"><primary>rsvg_set_default_dpi</primary></indexterm><programlisting><link linkend="void">void</link>        rsvg_set_default_dpi            (<link linkend="double">double</link> dpi);</programlisting>
+ <para>
+ Sets the DPI for the all future outgoing pixbufs. Common values are
+@@ -124,7 +124,7 @@
+ </simpara></listitem></varlistentry>
+ </variablelist></refsect2>
+ <refsect2>
+-<title><anchor id="rsvg-handle-set-dpi" role="function" condition="since:2.2">rsvg_handle_set_dpi ()</title>
++<title><anchor id="rsvg-handle-set-dpi" role="function">rsvg_handle_set_dpi ()</title>
+ <indexterm role="2.2"><primary>rsvg_handle_set_dpi</primary></indexterm><programlisting><link linkend="void">void</link>        rsvg_handle_set_dpi             (<link linkend="RsvgHandle">RsvgHandle</link> *handle,
+                                              <link linkend="double">double</link> dpi);</programlisting>
+ <para>
+@@ -240,7 +240,7 @@
+ </simpara></listitem></varlistentry>
+ </variablelist></refsect2>
+ <refsect2>
+-<title><anchor id="rsvg-handle-get-title" role="function" condition="since:2.4">rsvg_handle_get_title ()</title>
++<title><anchor id="rsvg-handle-get-title" role="function">rsvg_handle_get_title ()</title>
+ <indexterm role="2.4"><primary>rsvg_handle_get_title</primary></indexterm><programlisting>const <link linkend="char">char</link>* rsvg_handle_get_title           (<link linkend="RsvgHandle">RsvgHandle</link> *handle);</programlisting>
+ <para>
+ Returns the SVG's title in UTF-8 or <link linkend="NULL:CAPS"><literal>NULL</literal></link>. You must make a copy
+@@ -257,7 +257,7 @@
+ </variablelist><para>Since  2.4
+ </para></refsect2>
+ <refsect2>
+-<title><anchor id="rsvg-handle-get-desc" role="function" condition="since:2.4">rsvg_handle_get_desc ()</title>
++<title><anchor id="rsvg-handle-get-desc" role="function">rsvg_handle_get_desc ()</title>
+ <indexterm role="2.4"><primary>rsvg_handle_get_desc</primary></indexterm><programlisting>const <link linkend="char">char</link>* rsvg_handle_get_desc            (<link linkend="RsvgHandle">RsvgHandle</link> *handle);</programlisting>
+ <para>
+ Returns the SVG's description in UTF-8 or <link linkend="NULL:CAPS"><literal>NULL</literal></link>. You must make a copy
