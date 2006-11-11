@@ -1,0 +1,78 @@
+diff -Naur librsvg-2.6.5_old/rsvg.c librsvg-2.6.5/rsvg.c
+--- librsvg-2.6.5_old/rsvg.c	2004-03-12 04:58:20.000000000 +0200
++++ librsvg-2.6.5/rsvg.c	2006-11-11 01:34:09.000000000 +0200
+@@ -1260,7 +1260,6 @@
+  *
+  * Returns: The SVG's title
+  *
+- * Since: 2.4
+  */
+ G_CONST_RETURN char *rsvg_handle_get_title (RsvgHandle *handle)
+ {
+@@ -1276,7 +1275,6 @@
+  *
+  * Returns: The SVG's description
+  *
+- * Since: 2.4
+  */
+ G_CONST_RETURN char *rsvg_handle_get_desc (RsvgHandle *handle)
+ {
+@@ -1336,7 +1334,6 @@
+  * 72, 90, and 300 DPI. Passing a number <= 0 to #dpi will 
+  * reset the DPI to whatever the default value happens to be.
+  *
+- * Since: 2.2
+  */
+ void
+ rsvg_set_default_dpi (double dpi)
+@@ -1356,7 +1353,6 @@
+  * 72, 90, and 300 DPI. Passing a number <= 0 to #dpi will 
+  * reset the DPI to whatever the default value happens to be.
+  *
+- * Since: 2.2
+  */
+ void
+ rsvg_handle_set_dpi (RsvgHandle * handle, double dpi)
+diff -Naur librsvg-2.6.5_old/rsvg-file-util.c librsvg-2.6.5/rsvg-file-util.c
+--- librsvg-2.6.5_old/rsvg-file-util.c	2003-09-19 18:59:07.000000000 +0300
++++ librsvg-2.6.5/rsvg-file-util.c	2006-11-11 01:34:30.000000000 +0200
+@@ -217,7 +217,6 @@
+  * 
+  * Return value: A newly allocated #GdkPixbuf, or %NULL
+  *
+- * Since: 2.4
+  */
+ GdkPixbuf  *
+ rsvg_pixbuf_from_file_at_size_ex (RsvgHandle * handle,
+@@ -248,7 +247,6 @@
+  * 
+  * Return value: A newly allocated #GdkPixbuf, or %NULL
+  *
+- * Since: 2.4
+  */
+ GdkPixbuf  *
+ rsvg_pixbuf_from_file_ex (RsvgHandle * handle,
+@@ -274,7 +272,6 @@
+  * 
+  * Return value: A newly allocated #GdkPixbuf, or %NULL
+  *
+- * Since: 2.4
+  */
+ GdkPixbuf  *
+ rsvg_pixbuf_from_file_at_zoom_ex (RsvgHandle * handle,
+@@ -311,7 +308,6 @@
+  * 
+  * Return value: A newly allocated #GdkPixbuf, or %NULL
+  *
+- * Since: 2.4
+  */
+ GdkPixbuf  *
+ rsvg_pixbuf_from_file_at_max_size_ex (RsvgHandle * handle,
+@@ -348,7 +344,6 @@
+  * 
+  * Return value: A newly allocated #GdkPixbuf, or %NULL
+  *
+- * Since: 2.4
+  */
+ GdkPixbuf  *
+ rsvg_pixbuf_from_file_at_zoom_with_max_ex (RsvgHandle * handle,

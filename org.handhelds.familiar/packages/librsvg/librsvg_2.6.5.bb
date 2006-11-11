@@ -13,6 +13,8 @@ FILES_rsvg = "${bindir}/rsvg"
 FILES_librsvg-gtk = "${libdir}/gtk-2.0/*/*/*.so"
 FILES_librsvg-gtk-dev = "${libdir}/gtk-2.0"
 
+SRC_URI += "file://librsvg_sgml_jade13_fix.patch;patch=1"
+
 do_stage() {
 	install -d ${STAGING_INCDIR}/librsvg-2/librsvg/
 	install -m 0644 rsvg.h ${STAGING_INCDIR}/librsvg-2/librsvg/
