@@ -7,6 +7,8 @@ DEPENDS += "m4-native"
 RDEPENDS_${PN} = "m4 gnu-config"
 RRECOMMENDS_${PN} = "automake"
 
+DEFAULT_PREFERENCE = "-1"
+
 SRC_URI = "${GNU_MIRROR}/autoconf/autoconf-${PV}.tar.bz2 \
 	   file://program_prefix.patch;patch=1 \
 	   file://autoreconf-include.patch;patch=1 \
@@ -16,4 +18,5 @@ SRC_URI = "${GNU_MIRROR}/autoconf/autoconf-${PV}.tar.bz2 \
 	   file://autoheader-nonfatal-warnings.patch;patch=1 \
 	   file://sizeof_types.patch;patch=1 \
 	   ${@['file://path_prog_fixes.patch;patch=1', ''][bb.data.inherits_class('native', d)]}"
+
 inherit autotools
