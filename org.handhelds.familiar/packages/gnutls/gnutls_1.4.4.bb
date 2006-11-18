@@ -4,10 +4,15 @@ HOMEPAGE = "http://www.gnu.org/software/gnutls/"
 LICENSE = "LGPL"
 
 SRC_URI = "ftp://ftp.gnutls.org/pub/gnutls/gnutls-${PV}.tar.bz2 \
+	   file://onceonly.m4 \
            file://gnutls-openssl.patch;patch=1 \
            file://gnutls-texinfo-euro.patch;patch=1"
 
 inherit autotools binconfig pkgconfig
+
+do_configure_prepend() {
+        cp ${WORKDIR}/onceonly.m4 ${S}/m4/
+}
 
 PACKAGES =+ "${PN}-openssl ${PN}-extra ${PN}-bin"
 FILES_${PN}-openssl = "${libdir}/libgnutls-openssl.so.*"
