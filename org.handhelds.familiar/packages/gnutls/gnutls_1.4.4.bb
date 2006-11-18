@@ -2,6 +2,7 @@ DESCRIPTION = "GNU Transport Layer Security Library"
 DEPENDS = "zlib libgcrypt lzo"
 HOMEPAGE = "http://www.gnu.org/software/gnutls/"
 LICENSE = "LGPL"
+PR = "r1"
 
 SRC_URI = "ftp://ftp.gnutls.org/pub/gnutls/gnutls-${PV}.tar.bz2 \
 	   file://onceonly.m4 \
@@ -10,8 +11,9 @@ SRC_URI = "ftp://ftp.gnutls.org/pub/gnutls/gnutls-${PV}.tar.bz2 \
 
 inherit autotools binconfig pkgconfig
 
-do_configure_prepend() {
+do_configure() {
         cp ${WORKDIR}/onceonly.m4 ${S}/m4/
+	autotools_do_configure
 }
 
 PACKAGES =+ "${PN}-openssl ${PN}-extra ${PN}-bin"
