@@ -1,0 +1,87 @@
+diff -Naur old/etc/ppp/chatscripts/gprs-connect-chat new/etc/ppp/chatscripts/gprs-connect-chat
+--- old/etc/ppp/chatscripts/gprs-connect-chat	1970-01-01 02:00:00.000000000 +0200
++++ new/etc/ppp/chatscripts/gprs-connect-chat	2006-11-08 01:12:23.000000000 +0200
+@@ -0,0 +1,18 @@
++###########################################
++# Suggested chat script called by PPPD
++# File: /etc/ppp/chatscripts/gprs-connect-chat
++###########################################
++ABORT  BUSY
++ABORT  'NO CARRIER'
++ABORT ERROR
++REPORT CONNECT
++TIMEOUT 10
++""     "AT&F"
++OK     "ATE1"
++OK     "AT+CGDCONT=1,\042IP\042,\042internet\042"
++SAY    "Calling GPRS\n"
++TIMEOUT 60
++OK     "ATD*99***1#"
++CONNECT \c
++###########################################
++###########################################
+diff -Naur old/etc/ppp/chatscripts/gprs-disconnect-chat new/etc/ppp/chatscripts/gprs-disconnect-chat
+--- old/etc/ppp/chatscripts/gprs-disconnect-chat	1970-01-01 02:00:00.000000000 +0200
++++ new/etc/ppp/chatscripts/gprs-disconnect-chat	2006-11-07 15:06:10.000000000 +0200
+@@ -0,0 +1,10 @@
++# Boilerplate
++#
++        ABORT           BUSY
++        ABORT           ERROR
++        ABORT           'NO DIALTONE'
++        TIMEOUT         30
++
++# Get some attention
++        ''              '+++\c'
++        SAY             " + sending break"
+diff -Naur old/etc/ppp/pap-secrets new/etc/ppp/pap-secrets
+--- old/etc/ppp/pap-secrets	1970-01-01 02:00:00.000000000 +0200
++++ new/etc/ppp/pap-secrets	2006-11-08 01:14:27.000000000 +0200
+@@ -0,0 +1 @@
++#*       *       "Your-GPRS-Password"        *
+diff -Naur old/etc/ppp/peers/gprs new/etc/ppp/peers/gprs
+--- old/etc/ppp/peers/gprs	1970-01-01 02:00:00.000000000 +0200
++++ new/etc/ppp/peers/gprs	2006-11-08 01:13:58.000000000 +0200
+@@ -0,0 +1,42 @@
++###########################################
++#Suggested gprs PPPD configuration file
++#File /etc/ppp/peers/gprs
++###########################################
++#Set this to the device
++/dev/ttyS1
++#Baudrate
++115200
++#Idle time for closing connection
++idle   7200
++#Lock the device for this PPPD process use only
++lock
++#Use normal handshaking
++crtscts
++#Assume it is a modem device and force modem control methods
++modem
++#Any user can start the connection
++noauth
++#If a default route exists replace it with the ppp link
++#You get an error if this command is not supported
++#by your version of PPPD
++replacedefaultroute
++#Make the ppp link the default root
++defaultroute
++#Username and Password for computer/GlobeTrotter ppp link
++#Normally ignored. Change if GSM Operator requires it
++user               Anyname
++password           Anypassword
++#Change the path to chat if required for your version of Linux
++connect "/usr/sbin/chat -V -f /etc/ppp/chatscripts/gprs-connect-chat"
++disconnect "/usr/sbin/chat -f /etc/ppp/chatscripts/gprs-disconnect-chat"
++#Accept IP address provided by network
++noipdefault
++#Detach PPPD from console used to run the program {optional}
++#updetach
++nodetach
++#Get DNS addresses from operator
++usepeerdns
++#Don't use VJ compression for ppp link
++novj
++###########################################
++###########################################
