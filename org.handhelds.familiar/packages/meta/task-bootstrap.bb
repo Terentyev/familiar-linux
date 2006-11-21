@@ -41,6 +41,7 @@ DEPENDS = 'base-files base-passwd-3.5.9 \
 	busybox dropbear initscripts modutils netbase \
 	sysvinit tinylogin portmap psmisc setserial\
 	modutils-initscripts \
+	tar-native \
 	${HOTPLUG} \
 	${BOOTSTRAP_EXTRA_DEPENDS} \
 	${@bootstrap_modutils_depends(d)}'
