@@ -2,9 +2,8 @@ DESCRIPTION = "Irssi is a modular IRC client with Perl scripting."
 HOMEPAGE = "http://irssi.org/"
 SECTION = "console/network"
 LICENSE = "GPL"
-MAINTAINER = "Chris Larson <kergoth@handhelds.org>"
 DEPENDS += "ncurses glib-1.2"
-PV = "0.8.9+cvs${CVSDATE}"
+PV = "0.8.10+svn${CVSDATE}"
 PR = "r2"
 
 PACKAGES += "${PN}-common"
@@ -14,9 +13,9 @@ RDEPENDS_${PN} += "${PN}-common"
 
 inherit autotools
 
-SRC_URI = "cvs://anonymous:@cvs.irssi.org/home/cvs;module=irssi \
+SRC_URI = "svn://svn.irssi.org/repos/irssi/;module=trunk;proto=http \
 	   file://autofoo.patch;patch=1"
-S = "${WORKDIR}/irssi"
+S = "${WORKDIR}/trunk"
 
 EXTRA_OECONF = "--enable-ipv6 \
 		--disable-ssl \

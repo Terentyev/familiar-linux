@@ -10,7 +10,7 @@ PR = "r2"
 
 inherit autotools
 
-SRC_URI = "cvs://anonymous:@cvs.irssi.org/home/cvs;module=xirssi"
+SRC_URI = "svn://svn.irssi.org/repos/xirssi/;module=trunk;proto=http"
 S = "${WORKDIR}/xirssi"
 
 EXTRA_OECONF = "--with-irssi=${STAGING_LIBDIR}/../irssi"
