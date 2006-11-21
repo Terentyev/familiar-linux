@@ -9,5 +9,6 @@ PV = "0.1.3+cvs-${CVSDATE}"
 
 inherit autotools pkgconfig
 
-SRC_URI = "cvs://anonymous@xanadux.cvs.sourceforge.net/cvsroot/xanadux;module=gomunicator"
+SRC_URI = "cvs://anonymous@xanadux.cvs.sourceforge.net/cvsroot/xanadux;module=gomunicator \
+	   file://dbus_1_0_fix.patch;patch=1"
 S = "${WORKDIR}/${PN}"

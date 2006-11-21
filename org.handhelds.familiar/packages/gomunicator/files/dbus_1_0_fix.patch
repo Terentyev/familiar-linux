@@ -1,0 +1,17 @@
+diff -Naur gomunicator_old/src/dbus.c gomunicator/src/dbus.c
+--- gomunicator_old/src/dbus.c	2006-01-15 00:17:53.000000000 +0200
++++ gomunicator/src/dbus.c	2006-11-21 16:04:46.000000000 +0200
+@@ -1,4 +1,3 @@
+-#define DBUS_API_SUBJECT_TO_CHANGE
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <libintl.h>
+@@ -7,6 +6,8 @@
+ 
+ #define _(x) gettext(x)
+ 
++#define HAVE_DBUS_MESSAGE_ITER_GET_BASIC
++
+ 
+ static DBusConnection *connection;
+ 
