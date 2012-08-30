@@ -1,0 +1,25 @@
+Index: kernel/scripts/Configure
+===================================================================
+--- kernel.orig/scripts/Configure	2012-08-30 00:32:30.991075654 -0500
++++ kernel/scripts/Configure	2012-08-30 00:33:11.014899304 -0500
+@@ -544,9 +544,9 @@
+ 	CONFIG_IN=$1
+ fi
+ 
+-DEFAULTS=arch/$ARCH/defconfig
++DEFAULTS=./arch/$ARCH/defconfig
+ if [ -f .config ]; then
+-  DEFAULTS=.config
++  DEFAULTS=./.config
+ fi
+ 
+ if [ -f $DEFAULTS ]; then
+@@ -555,7 +555,7 @@
+   echo "#"
+   . $DEFAULTS
+   sed -e 's/# \(CONFIG_[^ ]*\) is not.*/\1=n/' <$DEFAULTS >.config-is-not.$$
+-  . .config-is-not.$$
++  . ./.config-is-not.$$
+   rm .config-is-not.$$
+ else
+   echo "#"
