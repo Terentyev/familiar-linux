@@ -1,0 +1,82 @@
+Index: coreutils-5.1.3/src/tee.c
+===================================================================
+--- coreutils-5.1.3.orig/src/tee.c	2012-09-01 17:38:48.725740002 -0500
++++ coreutils-5.1.3/src/tee.c	2012-09-01 17:42:34.852743637 -0500
+@@ -31,7 +31,7 @@
+ 
+ #define AUTHORS "Mike Parker", "Richard M. Stallman", "David MacKenzie"
+ 
+-static int tee (int nfiles, const char **files);
++static int _tee (int nfiles, const char **files);
+ 
+ /* If nonzero, append to output files rather than truncating them. */
+ static int append;
+@@ -146,7 +146,7 @@
+   /* Do *not* warn if tee is given no file arguments.
+      POSIX requires that it work when given no arguments.  */
+ 
+-  errs = tee (argc - optind, (const char **) &argv[optind]);
++  errs = _tee (argc - optind, (const char **) &argv[optind]);
+   if (close (STDIN_FILENO) != 0)
+     error (EXIT_FAILURE, errno, _("standard input"));
+ 
+@@ -158,7 +158,7 @@
+    Return 0 if successful, 1 if any errors occur. */
+ 
+ static int
+-tee (int nfiles, const char **files)
++_tee (int nfiles, const char **files)
+ {
+   FILE **descriptors;
+   char buffer[BUFSIZ];
+Index: coreutils-5.1.3/src/test.c
+===================================================================
+--- coreutils-5.1.3.orig/src/test.c	2012-09-01 17:35:26.722630083 -0500
++++ coreutils-5.1.3/src/test.c	2012-09-01 17:36:00.002483444 -0500
+@@ -121,46 +121,6 @@
+   test_exit (TEST_FAILURE);
+ }
+ 
+-#if HAVE_SETREUID && HAVE_SETREGID
+-/* Do the same thing access(2) does, but use the effective uid and gid.  */
+-
+-static int
+-eaccess (char const *file, int mode)
+-{
+-  static int have_ids;
+-  static uid_t uid, euid;
+-  static gid_t gid, egid;
+-  int result;
+-
+-  if (have_ids == 0)
+-    {
+-      have_ids = 1;
+-      uid = getuid ();
+-      gid = getgid ();
+-      euid = geteuid ();
+-      egid = getegid ();
+-    }
+-
+-  /* Set the real user and group IDs to the effective ones.  */
+-  if (uid != euid)
+-    setreuid (euid, uid);
+-  if (gid != egid)
+-    setregid (egid, gid);
+-
+-  result = access (file, mode);
+-
+-  /* Restore them.  */
+-  if (uid != euid)
+-    setreuid (uid, euid);
+-  if (gid != egid)
+-    setregid (gid, egid);
+-
+-  return result;
+-}
+-#else
+-# define eaccess(F, M) euidaccess (F, M)
+-#endif
+-
+ /* Increment our position in the argument list.  Check that we're not
+    past the end of the argument list.  This check is supressed if the
+    argument is FALSE.  Made a macro for efficiency. */
