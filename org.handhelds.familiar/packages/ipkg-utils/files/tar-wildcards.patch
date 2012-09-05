@@ -1,0 +1,16 @@
+Index: ipkg-utils/ipkg.py
+===================================================================
+--- ipkg-utils.orig/ipkg.py	2012-09-05 14:14:33.968508671 -0500
++++ ipkg-utils/ipkg.py	2012-09-05 14:18:21.071704581 -0500
+@@ -152,9 +152,9 @@
+             self.filename = os.path.basename(fn)
+ 	    ## sys.stderr.write("  extracting control.tar.gz from %s\n"% (fn,)) 
+             if self.isdeb:
+-                control = os.popen("ar p "+fn+" control.tar.gz | tar xfzO - '*control'","r")
++                control = os.popen("ar p "+fn+" control.tar.gz | tar -xzO --wildcards -f - '*control'","r")
+             else:
+-                control = os.popen("tar xfzO "+fn+" '*control.tar.gz' | tar xfzO - '*control'","r")
++                control = os.popen("tar -xzO --wildcards -f "+fn+" '*control.tar.gz' | tar -xzO --wildcards -f - '*control'","r")
+             line = control.readline()
+             while 1:
+                 if not line: break
