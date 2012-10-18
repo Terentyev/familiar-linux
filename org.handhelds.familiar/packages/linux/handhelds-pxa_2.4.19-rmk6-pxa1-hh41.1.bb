@@ -17,7 +17,8 @@ SRC_URI = "${HANDHELDS_CVS};module=linux/kernel;tag=${@'K' + bb.data.getVar('PV'
            file://linux-2.4-usb-gadget.patch;patch=1 \
            file://usb-gadget-ether-compat.patch;patch=1 \
 	   file://linux-2.4-no-short-loads.patch;patch=1 \
-	   file://linux-2.4-cpufreq.patch;patch=1"
+	   file://linux-2.4-cpufreq.patch;patch=1\
+           file://configure-script-bash4.patch;patch=1"
 
 S = "${WORKDIR}/kernel"
 
